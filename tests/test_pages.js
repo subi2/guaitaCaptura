@@ -26,7 +26,7 @@ for(const L of ['CAT','ENG']){const d='pages'+L;
   t(`${L} manifest`,()=>{assert.strictEqual(m.display,'standalone');assert.strictEqual(m.lang,L==='CAT'?'ca':'en');for(const i of m.icons)assert.ok(fs.existsSync(path.join(R,d,i.src)));assert.ok(fs.existsSync(path.join(R,d,m.start_url)));});
   const sw=rd(`${d}/sw.js`);
   t(`${L} sw: cau cadascuna amb el seu prefix i desa l'ajuda`,()=>{assert.ok(sw.includes(`guaita-captura-${L==='CAT'?'ca':'en'}-`));assert.ok(sw.includes(HELP[L]));});
-  t(`${L} versió coherent 0.2.0`,()=>{assert.ok(a.includes("const VERSION='0.2.0'"));assert.ok(h.includes('0.2.0'));});
+  t(`${L} versió coherent 0.2.1`,()=>{assert.ok(a.includes("const VERSION='0.2.1'"));assert.ok(h.includes('0.2.1'));});
 }
 t('app ENG sense restes òbvies de català a la interfície',()=>{const a=rd('pagesENG/guaitaCaptura.html').replace(/@font-face\{[^}]*\}/g,'');for(const w of ['Cancel·la','Elimina','Importar','Imprimeix','Col·lecció','Porta-retalls del sistema','Desa com a còpia','Anotar','Retalla','Farciment','Tolerància','Pantalla sencera'])assert.ok(!a.includes(w),w);});
 t('LICENSE és AGPL v3',()=>assert.ok(/GNU AFFERO GENERAL PUBLIC LICENSE\s+Version 3/.test(rd('LICENSE'))));

@@ -54,6 +54,6 @@ let pass=0,fail=0;const t=async(n,f)=>{try{await f();pass++;}catch(e){fail++;con
    const ln={t:'line',pts:[[0,0],[100,0]],lw:4};assert.ok(G.hitOp(ln,{x:50,y:3},1));assert.ok(!G.hitOp(ln,{x:50,y:9},1));
    const pg={t:'polygon',pts:[[0,0],[100,0],[100,100],[0,100]],lw:2,fill:''};assert.ok(!G.hitOp(pg,{x:50,y:50},2));pg.fill='#fff';assert.ok(G.hitOp(pg,{x:50,y:50},2));});
  await t('edHandles: caixa, línia, text i bafarada',()=>{const n=o=>G.edHandles(o,1).map(h=>h.k).join('');assert.strictEqual(n({t:'rect',x:0,y:0,w:10,h:10,rot:0}),'bbbbbbbbrot');assert.strictEqual(n({t:'arrow',pts:[[0,0],[5,5]]}),'p0p1');assert.strictEqual(n({t:'text',x:0,y:0,w:10,h:10,rot:0}),'bbbbrot');assert.strictEqual(n({t:'blur',x:0,y:0,w:10,h:10}),'bbbbbbbb');assert.ok(n({t:'callout',x:0,y:0,w:10,h:10,rot:0,tx:2,ty:14}).endsWith('tail'));});
- await t('editor i retall presents al DOM',()=>{const d=w.document;assert.ok(d.querySelectorAll('#edTools .tool').length>=28);assert.ok(d.querySelector('#crShape option[value=lasso]'));assert.ok(d.querySelector('#edSave'));assert.strictEqual(G.S.settings.surface,'monitor');});
+ await t('editor i retall presents al DOM',()=>{const d=w.document;assert.equal(d.querySelectorAll('#edTools .tgrp').length,4);assert.ok(d.querySelectorAll('#edTools .tool').length>=9);assert.ok(d.querySelector('#crShape option[value=lasso]'));assert.ok(d.querySelector('#edSave'));assert.strictEqual(G.S.settings.surface,'monitor');});
  console.log(`${pass} OK, ${fail} FAIL`);process.exit(fail?1:0);
 })();

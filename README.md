@@ -1,4 +1,4 @@
-# guaitaCaptura 0.2.0 — versió preliminar / preview (no RC)
+# guaitaCaptura 0.2.1 — versió preliminar / preview (no RC)
 
 > ⚠️ **Aquesta versió no és una Release Candidate.** És una PWA de proves prèvia a la versió d'escriptori (Electron). El format intern de l'arxiu pot canviar entre versions: exporteu l'arxiu (.zip) sovint.
 > ⚠️ **This is not a Release Candidate.** It is a test PWA ahead of the desktop (Electron) version. The internal archive format may change between versions: export the archive (.zip) often.

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  guaitaCaptura 0.2.0 — screenshot and clipboard manager
+  guaitaCaptura 0.2.1 — screenshot and clipboard manager
   PREVIEW VERSION (not a Release Candidate). The archive format may change.
   Copyright © 2026 SBS BiM Consulting, Jordi Subirós
   SPDX-License-Identifier: AGPL-3.0-only
@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#171B21">
 <meta name="description" content="guaitaCaptura: capture, archive, name, reuse and print screenshots. Local clipboard manager, no cloud.">
-<title>guaitaCaptura 0.2.0 · preview</title>
+<title>guaitaCaptura 0.2.1 · preview</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <style id="pageStyle">@page{size:A4 portrait;margin:0}</style>
@@ -169,10 +169,14 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 .edtext{position:absolute;z-index:3;background:rgba(0,0,0,.6);border:1px solid var(--accent);color:#fff;width:260px}
 .ov{grid-template-rows:auto 1fr auto}
 .ovhint{padding:3px 12px;background:var(--bg-panel);border-top:1px solid var(--border);font:400 11px var(--mono);color:var(--text-mut);min-height:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edmain{display:grid;grid-template-columns:auto 1fr;min-height:0}
-.edtools{display:grid;grid-template-columns:repeat(2,34px);gap:3px;padding:6px;background:var(--bg-panel);border-right:1px solid var(--border);align-content:start;overflow:auto}
-.edtools .tool{padding:0;height:32px;font-size:15px;text-align:center}
-.edtools hr{grid-column:1/-1;border:0;border-top:1px solid var(--border);width:100%;margin:2px 0}
+.edmain{display:flex;min-height:0;flex:1}
+.edtools{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:5px 10px;background:var(--bg-panel);border-bottom:1px solid var(--border)}
+.edtools .tool{padding:0 8px;height:30px;font-size:15px;text-align:center}
+.tgrp{display:inline-flex;align-items:center;gap:1px;border:1px solid var(--border);border-radius:6px;padding:1px}
+.tgrp.on{border-color:var(--accent)}
+.tgrp .tool{border:0;background:transparent}
+.tgrp .tg-more{padding:0 5px;font-size:10px;height:30px;color:var(--text-mut)}
+.tsep{width:1px;height:24px;background:var(--border);margin:0 4px}
 .tool[disabled]{opacity:.4;pointer-events:none}
 .stage{min-height:0;align-items:flex-start;justify-content:flex-start}
 .stage canvas{margin:auto;flex:none;background:repeating-conic-gradient(#3a3f47 0 25%,#2a2e35 0 50%) 0 0/16px 16px}
@@ -210,7 +214,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 <header class="top">
   <div class="brand">
     <svg width="20" height="20" viewBox="0 0 64 64" aria-hidden="true"><rect width="30" height="30" fill="#C6FF00"/><rect x="34" width="30" height="30" fill="#FF2ECC"/><rect y="34" width="30" height="30" fill="#00E5FF"/><rect x="34" y="34" width="30" height="30" fill="#FFE500"/></svg>
-    guaitaCaptura <span class="ver">0.2.0</span><span class="pre" title="Preview version: not a Release Candidate">preview · not RC</span>
+    guaitaCaptura <span class="ver">0.2.1</span><span class="pre" title="Preview version: not a Release Candidate">preview · not RC</span>
   </div>
   <nav class="menubar" id="menubar" aria-label="Main menu"></nav>
   <div class="quick">
@@ -221,7 +225,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   </div>
 </header>
 <div class="prebar" id="prebar" role="status">
-  <b>PREVIEW VERSION 0.2.0 — NOT AN RC.</b>
+  <b>PREVIEW VERSION 0.2.1 — NOT AN RC.</b>
   <span>Test PWA ahead of the Electron version. It has important browser limitations (capture through a dialog, clipboard only in the foreground). Export the archive (.zip) often.</span>
   <span class="sp"><button class="btn" id="preLim">Limitations</button><button class="btn" id="preHide" title="Hide until the next session">✕</button></span>
 </div>
@@ -272,8 +276,9 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 </div>
 
 <div class="ov" id="edOv" role="dialog" aria-label="Image editor">
+  <div class="edtools" id="edTools"></div>
   <div class="ovbar" id="edBar"></div>
-  <div class="edmain"><div class="edtools" id="edTools"></div><div class="stage" id="edStage"><canvas id="edCv"></canvas></div></div>
+  <div class="edmain"><div class="stage" id="edStage"><canvas id="edCv"></canvas></div></div>
   <div class="ovhint" id="edHint"></div>
 </div>
 
@@ -281,7 +286,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 
 <script>
 'use strict';
-const VERSION='0.2.0';
+const VERSION='0.2.1';
 const LANG=document.documentElement.lang==='en'?'en':'ca';
 const HELP_URL=LANG==='en'?'HLP%20guaitaCaptura-help_EN.html':'HLP%20guaitaCaptura-ajuda.html';
 const OTHER_URL=LANG==='en'?'../pagesCAT/guaitaCaptura.html':'../pagesENG/guaitaCaptura.html';
@@ -665,6 +670,20 @@ const ED_TOOLS=()=>[
   ['callout','❏','Callout with text',''],['text','T','Text','T'],['pencil','✎','Freehand pencil','D'],['marker','▆','Marker','M'],['hl','▬','Highlight','H'],['step','①','Numbered step','N'],['stamp','▣','Stamp',''],'-',
   ['blur','▒','Blur','B'],['pixel','▦','Pixelate',''],['eraser','⌫','Eraser: erases to transparent','E'],['wand','✦','Magic wand: makes a colour transparent','W'],['recolor','◐','Replace a colour',''],'-',
   ['selrect','⬚','Rectangular selection','S'],['selellipse','◌','Elliptical selection',''],['sellasso','⌾','Lasso selection',''],['selpoly','⏢','Polygonal selection','']];
+/* grups desplegables de la barra d'eines: l'eina escollida passa a ser la primera (visible) del seu grup */
+const ED_GROUPS=[{k:'form',n:'Shapes',ids:['rect','round','ellipse','triangle','rhombus','star','line','arrow','arrow2','polyline','polygon','cloud','callout']},
+  {k:'anot',n:'Annotation',ids:['text','pencil','marker','hl','step','stamp']},
+  {k:'trans',n:'Blur and transparency',ids:['blur','pixel','eraser','wand','recolor']},
+  {k:'zona',n:'Area selection',ids:['selrect','selellipse','sellasso','selpoly']}];
+const edTL=()=>Object.fromEntries(ED_TOOLS().filter(t=>t!=='-').map(t=>[t[0],t]));
+const edGroupHead=g=>(S.settings.toolPref||{})[g.k]||g.ids[0];
+function edToolBtn(t){return el('button',{class:'tool',type:'button','data-tool':t[0],title:t[2]+(t[3]?' ('+t[3]+')':''),onclick:()=>edTool(t[0])},t[1]);}
+function edBuildTools(){const tb=$('#edTools'),TL=edTL();tb.replaceChildren(edToolBtn(TL.select),el('span',{class:'tsep'}));
+  ED_GROUPS.forEach((g,i)=>{
+    const more=el('button',{class:'tool tg-more',type:'button',title:'Show the tools of «'+g.n+'”',onclick:e=>{e.stopPropagation();const b=e.currentTarget.getBoundingClientRect();
+      popupMenu(g.ids.map(id=>({l:TL[id][1]+'  '+TL[id][2]+(TL[id][3]?' ('+TL[id][3]+')':''),f:()=>{S.settings.toolPref={...(S.settings.toolPref||{}),[g.k]:id};saveSettings();edBuildTools();edTool(id);}})),b.left,b.bottom+2);}},'▾');
+    tb.append(el('span',{class:'tgrp','data-group':g.k,title:g.n},edToolBtn(TL[edGroupHead(g)]),more));
+    if(i<ED_GROUPS.length-1)tb.append(el('span',{class:'tsep'}));});}
 const ED_HINTS=()=>({select:'Click an object to select it. Drag it to move it and use the handles to resize or rotate it. Double-click edits the text.',
   polyline:'Click the vertices. Finish with a double-click or Enter.',polygon:'Click the vertices. Close with a double-click, Enter or by clicking the first point.',selpoly:'Click the vertices. Close with a double-click, Enter or by clicking the first point.',
   wand:'Click a colour in the image to make it transparent.',recolor:'Click a colour in the image to pick it as the source, then press “Apply”.',eraser:'Drag to erase to transparent. Thickness changes the eraser size.',
@@ -887,6 +906,7 @@ function edSyncUI(){const o=ED.tool==='select'?edSelObj():null,P=o||ED.P,t=ED.to
   $('#edStroke').value=String(P.stroke||'#000000').toLowerCase();$('#edFillOn').checked=!!P.fill;if(P.fill)$('#edFill').value=String(P.fill).toLowerCase();$('#edLw').value=String(P.lw);$('#edOp').value=String(Math.round((P.op==null?1:P.op)*100));$('#edDash').checked=!!P.dash;
   if([...$('#edFs').options].some(q=>+q.value===Math.round(P.fs)))$('#edFs').value=String(Math.round(P.fs));
   $$('#edTools .tool').forEach(b=>b.classList.toggle('on',b.dataset.tool===t));
+  $$('#edTools .tgrp').forEach(g=>g.classList.toggle('on',!!ED_GROUPS.find(x=>x.k===g.dataset.group)?.ids.includes(t)));
   $('#gWand').style.display=t==='wand'?'':'none';$('#gRc').style.display=t==='recolor'?'':'none';$('#gStamp').style.display=t==='stamp'?'':'none';
   $('#edTol').value=String(ED.wand.tol);$('#edContig').checked=ED.wand.contig;$('#edRcFrom').value=ED.rc.from;$('#edRcTo').value=ED.rc.to;$('#edRcTol').value=String(ED.rc.tol);
   $('#edUndo').disabled=ED.hi<=0;$('#edRedo').disabled=ED.hi>=ED.hist.length-1;
@@ -899,8 +919,8 @@ const edSelMenu=()=>{const h=()=>!!ED.sel;return[{head:'Selection tools'},{l:'Re
   {l:'Make it transparent',k:'Del',f:()=>edSelClear(false),en:h},{l:'Make the outside transparent',f:()=>edSelClear(true),en:h},{l:'Crop the image to the selection',f:edSelCrop,en:h},{l:'Colour adjustments in the area…',f:edAdjOpen,en:h},{l:'Copy it to the clipboard',k:'Ctrl+C',f:edCopy,en:h}];};
 const edObjMenu=()=>{const h=()=>!!edSelObj();return[{l:'Edit text…',f:()=>edTextEdit(edSelObj()),en:()=>edTexty(edSelObj())},{l:'Duplicate',k:'Ctrl+D',f:edObjDup,en:h},{l:'Delete',k:'Del',f:edObjDel,en:h},'-',
   {l:'Bring to front',f:()=>edObjOrder('top'),en:h},{l:'Bring forward',f:()=>edObjOrder('up'),en:h},{l:'Send backward',f:()=>edObjOrder('down'),en:h},{l:'Send to back',f:()=>edObjOrder('bottom'),en:h}];};
-function edInit(){const bar=$('#edBar'),tb=$('#edTools'),cv=$('#edCv');
-  for(const t of ED_TOOLS()){if(t==='-'){tb.append(el('hr'));continue;}tb.append(el('button',{class:'tool',type:'button','data-tool':t[0],title:t[2]+(t[3]?' ('+t[3]+')':''),onclick:()=>edTool(t[0])},t[1]));}
+function edInit(){const bar=$('#edBar'),cv=$('#edCv');
+  edBuildTools();
   const opt=(arr,sel)=>arr.map(([v,l])=>el('option',{value:String(v),selected:v===sel},l));
   const drop=(id,label,items)=>el('button',{class:'tool',type:'button',id,onclick:e=>{e.stopPropagation();const b=e.currentTarget.getBoundingClientRect();popupMenu(items(),b.left,b.bottom+2);}},label);
   bar.append(el('span',{class:'t',id:'edTitle'},'Annotate'),
@@ -1058,9 +1078,9 @@ function dialog(title,body,buttons){const d=$('#dlg');$('#dlgH').textContent=tit
 function ask({title,msg,input,placeholder,ok='OK',danger}){const body=el('div',{});if(msg)body.append(el('p',{style:'margin:0 0 8px'},msg));let inp=null;
   if(input!==undefined){inp=el('input',{value:input,placeholder:placeholder||''});inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#dlgF .pri,#dlgF .danger:last-child')?.click();}});body.append(inp);}
   let v=null;return dialog(title,body,[{l:'Cancel'},{l:ok,pri:!danger,danger,v:'__ok'}]).then(r=>{if(r!=='__ok')return input!==undefined?null:false;return inp?inp.value.trim():true;});}
-function showLimits(){dialog('Limitations of version 0.2.0 (preview, not RC)',el('div',{html:LIMITS_HTML}),[{l:'Understood',pri:true,f:()=>DB.setMeta('seenLimits',VERSION)}]);}
+function showLimits(){dialog('Limitations of version 0.2.1 (preview, not RC)',el('div',{html:LIMITS_HTML}),[{l:'Understood',pri:true,f:()=>DB.setMeta('seenLimits',VERSION)}]);}
 const LIMITS_HTML=`
-<p><b style="color:var(--warn)">This is a preview version 0.2.0 and it is not a Release Candidate.</b> It is meant for testing the workflow before the desktop (Electron) version. It may contain bugs, and the internal archive format may change between versions: <b>export the archive (.zip) often</b>.</p>
+<p><b style="color:var(--warn)">This is a preview version 0.2.1 and it is not a Release Candidate.</b> It is meant for testing the workflow before the desktop (Electron) version. It may contain bugs, and the internal archive format may change between versions: <b>export the archive (.zip) often</b>.</p>
 <h4>Screen capture</h4><ul>
 <li>The browser always shows its own dialog to pick a screen, window or tab (getDisplayMedia). The app can only propose a type; to avoid repeating the dialog, start a capture session.</li>
 <li>When capturing the entire screen, the app waits until you switch window: otherwise it would appear in the capture itself.</li>
@@ -1208,7 +1228,7 @@ function renderSide(){const sd=$('#side');sd.innerHTML='';const cnt=f=>S.shots.f
   if(tags.length){sd.append(el('div',{class:'shead'},'Tags'));sd.append(el('div',{class:'tags'},...tags.map(t=>el('span',{class:'tag'+(F.tag===t?' on':''),onclick:()=>{S.filter.tag=F.tag===t?'':t;render();}},'#'+t))));}}
 function renderGrid(){const g=$('#grid'),list=visible();g.className='grid'+(S.settings.view==='list'?' list':'');g.style.setProperty('--tw',{s:'130px',m:'180px',l:'260px'}[S.settings.thumb]||'180px');g.innerHTML='';
   if(!S.shots.length){g.className='';g.append(el('div',{class:'welcome',html:`<svg width="56" height="56" viewBox="0 0 64 64"><rect width="30" height="30" fill="#C6FF00"/><rect x="34" width="30" height="30" fill="#FF2ECC"/><rect y="34" width="30" height="30" fill="#00E5FF"/><rect x="34" y="34" width="30" height="30" fill="#FFE500"/></svg>
-    <h2>The archive is empty</h2><p>Capture the screen with <kbd>Alt+S</kbd>, crop a region with <kbd>Alt+R</kbd>, paste with <kbd>Ctrl+V</kbd> or drag images here.</p><p class="small">Preview version 0.2.0 · not RC · read the limitations before relying on it for important work.</p>`},
+    <h2>The archive is empty</h2><p>Capture the screen with <kbd>Alt+S</kbd>, crop a region with <kbd>Alt+R</kbd>, paste with <kbd>Ctrl+V</kbd> or drag images here.</p><p class="small">Preview version 0.2.1 · not RC · read the limitations before relying on it for important work.</p>`},
     el('div',{class:'row'},el('button',{class:'btn pri',type:'button',onclick:()=>run(()=>capture())},'Capture'),el('button',{class:'btn',type:'button',onclick:()=>$('#fileIn').click()},'Import…'),el('button',{class:'btn',type:'button',onclick:showLimits},'Limitations'))));return;}
   if(!list.length){g.append(el('div',{class:'empty',style:'grid-column:1/-1'},'No item matches the filter.'));return;}
   const frag=document.createDocumentFragment();
@@ -1302,7 +1322,7 @@ function bind(){
 /* ───────── arrencada ───────── */
 async function init(){bind();buildMenus();
   try{await DB.open();}catch(e){DB.useMemory();toast('IndexedDB not available: captures are only kept while the app is open','err',9000);}
-  try{const st=await DB.getMeta('settings');if(st)S.settings={...S.settings,...st};S.collections=(await DB.getMeta('collections'))||[];S.shots=(await DB.all()).sort((a,b)=>b.created-a.created);
+  try{const st=await DB.getMeta('settings');if(st)S.settings={...S.settings,...st};edBuildTools();S.collections=(await DB.getMeta('collections'))||[];S.shots=(await DB.all()).sort((a,b)=>b.created-a.created);
     if(navigator.storage&&navigator.storage.persisted)S.persisted=await navigator.storage.persisted();}catch(e){err(e);}
   applyLayout();render();renderClip();
   try{if(navigator.permissions&&S.settings.autoClip){const p=await navigator.permissions.query({name:'clipboard-read'});if(p.state==='granted')clipRead(false,{baseline:true});}}catch(e){}

@@ -49,13 +49,13 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 </style></head><body>
 <button id="th" title="theme">◐</button>
 <header class="hero"><div class="brand"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA<small>captura</small></div>
-<span class="tag">Manual d'ús · 0.2.0 · preliminar</span><h1>Guaita <em>Captura</em></h1><p class="lead">Gestor de captures de pantalla i de porta-retalls en un sol fitxer HTML. Captura, arxiva, anomena, reutilitza i imprimeix. No s'instal·la res, no es connecta a cap servidor i tot es desa al teu navegador: les teves captures no surten del teu ordinador.</p></header>
+<span class="tag">Manual d'ús · 0.2.1 · preliminar</span><h1>Guaita <em>Captura</em></h1><p class="lead">Gestor de captures de pantalla i de porta-retalls en un sol fitxer HTML. Captura, arxiva, anomena, reutilitza i imprimeix. No s'instal·la res, no es connecta a cap servidor i tot es desa al teu navegador: les teves captures no surten del teu ordinador.</p></header>
 <div class="wrap"><nav class="toc"><a href="#intro">Què és</a><a href="#comencar">Començar</a><a href="#pantalla">La pantalla</a><a href="#capturar">Capturar</a><a href="#retallar">Retallar</a><a href="#arxivar">Arxivar</a><a href="#anomenar">Anomenar</a><a href="#reutilitzar">Reutilitzar</a><a href="#anotar">Editor</a><a href="#imprimir">Imprimir i PDF</a><a href="#dreceres">Dreceres</a><a href="#limits">Limitacions</a><a href="#electron">Cap a Electron</a><a href="#faq">Preguntes freqüents</a></nav>
 <main>
 
 <section id="intro"><h2>01 · Introducció</h2><div class="st">Què és guaitaCaptura</div>
 <p>guaitaCaptura reuneix en una sola eina cinc tasques: <b>capturar</b> la pantalla, <b>arxivar</b> les captures amb ordre, <b>anomenar-les</b> amb plantilles, <b>reutilitzar-les</b> (també com a gestor del porta-retalls del sistema) i <b>imprimir-les</b> o exportar-les a PDF.</p>
-<div class="note stop"><b>Versió preliminar 0.2.0, no és una Release Candidate.</b> És una PWA de proves prèvia a la versió d'escriptori (Electron). Pot tenir errors i el format intern de l'arxiu pot canviar entre versions. <b>Exporta l'arxiu (.zip) sovint</b> i llegeix les <a href="#limits">limitacions</a> abans de confiar-hi feina important.</div>
+<div class="note stop"><b>Versió preliminar 0.2.1, no és una Release Candidate.</b> És una PWA de proves prèvia a la versió d'escriptori (Electron). Pot tenir errors i el format intern de l'arxiu pot canviar entre versions. <b>Exporta l'arxiu (.zip) sovint</b> i llegeix les <a href="#limits">limitacions</a> abans de confiar-hi feina important.</div>
 <div class="note">Privadesa: tot es processa <b>localment</b> al navegador. No hi ha comptes, ni servidors, ni telemetria.</div>
 </section>
 
@@ -167,7 +167,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 </section>
 
 <section id="anotar"><h2>09 · Editor</h2><div class="st">Anotar, dibuixar i editar la imatge</div>
-<p>Doble clic sobre una imatge, <kbd>E</kbd> o <i>Edita › Anotar i editar</i>. A l'esquerra hi ha les eines; a dalt, les propietats i els menús <b>Imatge</b>, <b>Selecció</b> i <b>Objecte</b>; el botó dret obre el menú contextual.</p>
+<p>Doble clic sobre una imatge, <kbd>E</kbd> o <i>Edita › Anotar i editar</i>. A dalt de tot hi ha la fila d'eines: <i>Selecciona</i> i els grups desplegables <b>Formes</b>, <b>Anotació</b>, <b>Difuminar i transparència</b> i <b>Selecció de zona</b>. Prem la ▾ d'un grup per triar-hi una eina: l'eina escollida queda visible com a primera del grup, sense haver de desplegar. Sota la fila hi ha les propietats i els menús <b>Imatge</b>, <b>Selecció</b> i <b>Objecte</b>; el botó dret obre el menú contextual.</p>
 <h3>Objectes editables</h3>
 <p>Tot el que dibuixes és un <b>objecte</b>. Amb l'eina de selecció (<kbd>V</kbd>) el pots moure, redimensionar amb les nanses, girar amb la nansa rodona (<kbd>Maj</kbd> = passos de 15°), duplicar (<kbd>Ctrl</kbd>+<kbd>D</kbd>), eliminar (<kbd>Supr</kbd>), moure amb les fletxes i canviar d'ordre (al davant, endavant, enrere, al fons). Els objectes es desen amb la captura: en tornar-la a obrir <b>es poden seguir editant</b>.</p>
 <table class="tbl"><tr><th>Eines</th><th>Detall</th></tr>
@@ -230,7 +230,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>Les dreceres <kbd>Alt</kbd> només funcionen amb l'app en primer pla.</p>
 </section>
 
-<section id="limits"><h2>12 · Limitacions</h2><div class="st">Limitacions de la versió 0.2.0</div>
+<section id="limits"><h2>12 · Limitacions</h2><div class="st">Limitacions de la versió 0.2.1</div>
 <div class="note stop"><b>Versió preliminar: no és RC.</b> Aquestes limitacions són del navegador; la versió Electron en resoldrà la major part.</div>
 <h3>Captura</h3>
 <ul><li>El navegador sempre mostra el seu diàleg; l'app només hi proposa un tipus. Una sessió de captura evita repetir-lo.</li>
