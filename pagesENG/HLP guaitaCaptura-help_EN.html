@@ -1,0 +1,246 @@
+<!--
+  Guaita Apps - Suite d'eines autònomes per a arquitectura, BIM i documentació.
+  Copyright (c) 2026 Jordi Subirós
+  GNU Affero General Public License v3.0
+  See LICENSE file for details
+-->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>guaitaCaptura — User guide</title><link rel="icon" href="icon-192.png"><style>
+:root{--bg:#0b0d07;--bg2:#12160a;--card:#1c220c;--bd:#2b3313;--tx:#e6ecd2;--mut:#99a37a;--a:#C6FF00;--a2:#FF2ECC;--a3:#00E5FF;--a4:#FFE500;--on:#0b0d07}
+:root[data-t=l]{--bg:#eef0e0;--bg2:#e4e8cf;--card:#fbfcf4;--bd:#c3cc98;--tx:#232814;--mut:#5d6840;--a:#6f8f00;--on:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 'Space Grotesk','IBM Plex Sans',system-ui,sans-serif;background-image:linear-gradient(var(--bd) 1px,transparent 1px),linear-gradient(90deg,var(--bd) 1px,transparent 1px);background-size:48px 48px;background-attachment:fixed}
+code,kbd,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.hero{padding:56px 24px 40px;max-width:1100px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font:700 15px 'IBM Plex Mono',monospace;letter-spacing:.2em}
+.brand small{font-weight:400;color:var(--mut);letter-spacing:.1em;text-transform:lowercase;font-size:12px}
+.cells{display:grid;grid-template-columns:repeat(2,13px);gap:2px}.cells span{width:13px;height:13px}
+.cells span:nth-child(1),.fb .cells span:nth-child(1){background:#C6FF00}.cells span:nth-child(2),.fb .cells span:nth-child(2){background:#FF2ECC}
+.cells span:nth-child(3),.fb .cells span:nth-child(3){background:#00E5FF}.cells span:nth-child(4),.fb .cells span:nth-child(4){background:#FFE500}
+.tag{display:inline-block;margin:28px 0 8px;padding:2px 10px;border:1px solid var(--a);color:var(--a);font:12px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}h1 em{color:var(--a);font-style:normal}
+.lead{max-width:760px;color:var(--mut);font-size:18px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px 60px;display:grid;grid-template-columns:220px 1fr;gap:40px}
+nav.toc{position:sticky;top:20px;align-self:start;font:13px 'IBM Plex Mono',monospace;display:flex;flex-direction:column;gap:2px}
+nav.toc a{color:var(--mut);text-decoration:none;padding:5px 10px;border-left:2px solid var(--bd)}
+nav.toc a:hover,nav.toc a.on{color:var(--a);border-color:var(--a);background:var(--bg2)}
+section{padding:8px 0 28px;scroll-margin-top:16px}
+h2{font:12px 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin:34px 0 0}
+.st{font-size:30px;font-weight:700;margin:2px 0 14px;letter-spacing:-.01em}
+h3{font-size:18px;margin:22px 0 4px}
+a{color:var(--a)}
+.note{border-left:3px solid var(--a);background:var(--card);padding:10px 16px;margin:16px 0}
+.note.warn{border-color:var(--a4)}.note.stop{border-color:var(--a2)}
+table.tbl{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+.tbl th,.tbl td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}.tbl th{background:var(--bg2);color:var(--a);font:12px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.08em}
+kbd{background:var(--card);border:1px solid var(--bd);border-bottom-width:2px;border-radius:4px;padding:1px 6px;font-size:12.5px}
+code{background:var(--card);padding:1px 5px;border-radius:3px;font-size:13.5px}
+ol.steps{counter-reset:s;list-style:none;padding:0}ol.steps li{counter-increment:s;padding:6px 0 6px 44px;position:relative}
+ol.steps li:before{content:counter(s);position:absolute;left:0;top:6px;width:30px;height:30px;background:var(--a);color:var(--on);font:700 14px 'IBM Plex Mono',monospace;display:grid;place-items:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--bd);padding:16px}.card b{color:var(--a)}
+details{background:var(--card);border:1px solid var(--bd);margin:8px 0;padding:10px 16px}summary{cursor:pointer;font-weight:600}
+footer{border-top:1px solid var(--bd);background:var(--bg2);padding:26px 24px;color:var(--mut);font-size:13px}
+footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;gap:8px;font:700 12px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:var(--tx);margin-bottom:10px}
+.fb .cells{grid-template-columns:repeat(2,6px)}.fb .cells span{width:6px;height:6px}
+#th{position:fixed;top:12px;right:12px;background:var(--card);color:var(--tx);border:1px solid var(--bd);padding:4px 10px;cursor:pointer;font:12px 'IBM Plex Mono',monospace}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}nav.toc{position:static;flex-direction:row;flex-wrap:wrap}}
+</style></head><body>
+<button id="th" title="theme">◐</button>
+<header class="hero"><div class="brand"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA<small>captura</small></div>
+<span class="tag">User guide · 0.1.2 · preview</span><h1>Guaita <em>Captura</em></h1><p class="lead">Screenshot and clipboard manager in a single HTML file. Capture, archive, name, reuse and print. It installs nothing, connects to no server and keeps everything in your browser: your captures never leave your computer.</p></header>
+<div class="wrap"><nav class="toc"><a href="#intro">What it is</a><a href="#comencar">Getting started</a><a href="#pantalla">The screen</a><a href="#capturar">Capture</a><a href="#arxivar">Archive</a><a href="#anomenar">Name</a><a href="#reutilitzar">Reuse</a><a href="#anotar">Annotate</a><a href="#imprimir">Print and PDF</a><a href="#dreceres">Shortcuts</a><a href="#limits">Limitations</a><a href="#electron">Towards Electron</a><a href="#faq">FAQ</a></nav>
+<main>
+
+<section id="intro"><h2>01 · Introduction</h2><div class="st">What guaitaCaptura is</div>
+<p>guaitaCaptura brings five tasks together in one tool: <b>capturing</b> the screen, <b>archiving</b> captures in an orderly way, <b>naming</b> them with templates, <b>reusing</b> them (also as a manager for the system clipboard) and <b>printing</b> them or exporting them to PDF.</p>
+<div class="note stop"><b>Preview version 0.1.2, not a Release Candidate.</b> It is a test PWA ahead of the desktop (Electron) version. It may contain bugs and the internal archive format may change between versions. <b>Export the archive (.zip) often</b> and read the <a href="#limits">limitations</a> before relying on it for important work.</div>
+<div class="note">Privacy: everything is processed <b>locally</b> in the browser. No accounts, no servers, no telemetry.</div>
+</section>
+
+<section id="comencar"><h2>02 · Getting started</h2><div class="st">Opening and installing the app</div>
+<p>The app works best when it is not opened by double-clicking the file (<code>file://</code>), because then the browser does not remember the clipboard permission and automatic history is disabled.</p>
+<ol class="steps">
+<li>Open it from an <code>https://</code> address (for example GitHub Pages) or from <code>http://localhost</code>.</li>
+<li>In Chrome or Edge, use <b>Install</b> in the address bar to get it as a standalone offline app.</li>
+<li>The first time, the <b>Limitations</b> window opens. Press “Understood” when you have read it; you can reopen it from <i>Help</i>.</li>
+</ol>
+<div class="note warn">To serve it locally: inside the project folder run <code>python -m http.server 8000</code> and open <code>http://localhost:8000/pagesENG/guaitaCaptura.html</code>.</div>
+<p>By default, captures are stored in the browser's <b>IndexedDB</b>. The CAT and ENG versions share the same archive when opened from the same address.</p>
+</section>
+
+<section id="pantalla"><h2>03 · Interface</h2><div class="st">The screen</div>
+<div class="cards">
+<div class="card"><b>Menus</b><p>At the top: <i>File, Capture, Edit, Clipboard, View, Help</i>. Everything the program does is reachable from the cascading menus. Next to them, the quick buttons <b>Capture</b>, <b>Crop</b> and <b>From clipboard</b>.</p></div>
+<div class="card"><b>Left panel</b><p>Search, archive views (All, Starred, Clipboard history, Texts, No collection), <b>collections</b> and <b>tags</b>.</p></div>
+<div class="card"><b>Centre</b><p>The grid (or list) of thumbnails. You can drag files in to import them.</p></div>
+<div class="card"><b>Right panel</b><p>At the top, the <b>system clipboard</b>; below, the <b>detail</b> of the selected item: name, collection, tags and notes.</p></div>
+</div>
+<p>The bottom bar shows the number of items, the space used, browser usage, whether storage is persistent and the date of the last export. The <i>View</i> menu lets you switch between grid and list, change the thumbnail size and hide the right panel.</p>
+</section>
+
+<section id="capturar"><h2>04 · Capture</h2><div class="st">Getting captures into the archive</div>
+<h3>Capturing the screen</h3>
+<ol class="steps">
+<li>Press <kbd>Alt</kbd>+<kbd>S</kbd> or the <b>Capture</b> button.</li>
+<li>The browser asks which <b>screen, window or tab</b> you want to share. Pick one.</li>
+<li>The app grabs a frame and saves it to the archive using the name template.</li>
+</ol>
+<div class="note warn">The browser asks for the selection every time: there is no silent capture and no global shortcut. These limitations will disappear with the Electron version.</div>
+<h3>Other ways to bring images in</h3>
+<table class="tbl"><tr><th>Mode</th><th>How</th><th>Detail</th></tr>
+<tr><td>Region crop</td><td><kbd>Alt</kbd>+<kbd>R</kbd> or <i>Capture › Region crop</i></td><td>Captures the screen and lets you select a rectangle. <kbd>Enter</kbd> saves the crop (or the whole image if you marked none), <kbd>Esc</kbd> cancels.</td></tr>
+<tr><td>Timer</td><td><kbd>Alt</kbd>+<kbd>T</kbd> (5 s) or <i>Capture › With timer</i></td><td>3, 5 or 10 seconds, or 5 seconds with crop. A large countdown is shown.</td></tr>
+<tr><td>Burst</td><td><i>Capture › Burst</i></td><td>5 or 10 captures, one per second, handy for documenting a process.</td></tr>
+<tr><td>Paste</td><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Pastes images or text. Always works, no permissions needed. Duplicates are reported and not saved again.</td></tr>
+<tr><td>Drag or import</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd> or drag onto the centre</td><td>Images (PNG, JPG, WebP, GIF…), text (.txt) and guaitaCaptura .zip archives.</td></tr>
+<tr><td>From the clipboard</td><td><b>From clipboard</b> button</td><td>Reads what is on the system clipboard and saves it.</td></tr></table>
+</section>
+
+<section id="arxivar"><h2>05 · Archive</h2><div class="st">Organise, search and keep</div>
+<ul>
+<li><b>Collections.</b> Create them with the <kbd>+</kbd> in the left panel or from <i>Edit › Move to collection</i>. If a collection is open, new captures are saved straight into it. They can be renamed and deleted (items are kept without a collection).</li>
+<li><b>Tags.</b> Type them comma-separated in the detail. To assign tags to several items at once, select them and use “Add tags”.</li>
+<li><b>Starred.</b> <kbd>S</kbd> or the star in the detail.</li>
+<li><b>Notes.</b> Free text per item; it can also be printed under each image.</li>
+<li><b>Search.</b> Searches name, notes, tags, text and source.</li>
+<li><b>Multiple selection.</b> <kbd>Ctrl</kbd>+click, <kbd>Shift</kbd>+click and <kbd>Ctrl</kbd>+<kbd>A</kbd>. The arrow keys move the selection.</li>
+</ul>
+<h3>Exporting and importing the archive</h3>
+<p><i>File › Export the whole archive (.zip)</i> creates a .zip with the images and a <code>guaitaCaptura.json</code> file holding names, collections, tags, notes and dates. To restore it, import the .zip: items that already exist are skipped. <i>Export the selection</i> downloads one image (or a .zip if there are several) in the format chosen in <i>Settings</i> (PNG, JPEG, WebP or original).</p>
+<div class="note warn">The archive lives in the browser, at the address where you used it. Clearing browsing data deletes it. Turn on <b>persistent storage</b> in <i>Settings</i> and make .zip backups regularly.</div>
+</section>
+
+<section id="anomenar"><h2>06 · Name</h2><div class="st">Name templates and batch rename</div>
+<p>Each new capture gets a name from a template, configurable in <i>File › Settings</i>. The default is <code>{source}_{date}_{time}_{n}</code>.</p>
+<table class="tbl"><tr><th>Token</th><th>Value</th></tr>
+<tr><td><code>{name}</code></td><td>Current name (in batch rename) or the first words of a text</td></tr>
+<tr><td><code>{date}</code></td><td>Date YYYY-MM-DD</td></tr>
+<tr><td><code>{time}</code></td><td>Time hhmmss</td></tr>
+<tr><td><code>{n}</code></td><td>Sequential three-digit counter (001, 002…)</td></tr>
+<tr><td><code>{col}</code></td><td>Open collection</td></tr>
+<tr><td><code>{source}</code></td><td>capture, crop, clipboard, burst, pasted, imported…</td></tr></table>
+<p>The Catalan tokens (<code>{origen} {data} {hora} {nom}</code>) are also accepted. Characters not allowed in a file name are replaced with a hyphen.</p>
+<h3>Batch rename</h3>
+<p>Select several items and use <i>Edit › Batch rename</i>: choose the template and the starting number, and a preview is shown. It is applied from oldest to newest. To rename a single item, edit the “Name” field in the detail or press <kbd>F2</kbd>.</p>
+</section>
+
+<section id="reutilitzar"><h2>07 · Reuse</h2><div class="st">The clipboard and your items</div>
+<p>The right panel shows the current content of the <b>system clipboard</b> (image or text) and lets you replace it with any item from the archive.</p>
+<ol class="steps">
+<li>Press <b>Read</b> to see what is on the clipboard (the browser asks for permission the first time).</li>
+<li>Press <b>Save to archive</b> if you want to keep it.</li>
+<li>Select an item in the archive and press <b>Put selected item on it</b> (or <kbd>Ctrl</kbd>+<kbd>C</kbd>). You can pick a scale first: original size, 50 %, 25 % or a maximum width of 1920, 1280 or 800 px.</li>
+<li>Switch to the other program (Word, an email, a drawing editor…) and paste with <kbd>Ctrl</kbd>+<kbd>V</kbd>.</li>
+</ol>
+<p>The <i>Clipboard</i> menu also lets you put an item's <b>name</b> or <b>notes</b> on the clipboard as text.</p>
+<h3>Automatic history</h3>
+<p>When enabled, each time you return to the app the clipboard is read and, if there is new content, it is saved to the archive (the “Clipboard history” view). It only works if the permission is already granted and it does not read during a capture.</p>
+<div class="note warn">The browser does not allow watching the clipboard in the background: if you copy several things in a row in other programs, only the last one is saved. Images are always placed on the clipboard as PNG.</div>
+<h3>Other ways to reuse</h3>
+<ul><li><b>Duplicate</b> (<kbd>Ctrl</kbd>+<kbd>D</kbd>): a copy before editing; the original is always kept.</li>
+<li><b>Drag</b> a thumbnail out of the app (to the desktop or file explorer, in Chrome/Edge) to save it as a file.</li>
+<li><b>Download</b> as PNG, JPEG, WebP or the original format.</li></ul>
+</section>
+
+<section id="anotar"><h2>08 · Annotate</h2><div class="st">Annotation editor</div>
+<p>Double-click an image, press <kbd>E</kbd> or use <i>Edit › Annotate</i>. The tools and their shortcuts:</p>
+<table class="tbl"><tr><th>Tool</th><th>Shortcut</th><th>Use</th></tr>
+<tr><td>Rectangle</td><td><kbd>R</kbd></td><td>Frame an area</td></tr>
+<tr><td>Arrow</td><td><kbd>F</kbd></td><td>Point at a detail</td></tr>
+<tr><td>Text</td><td><kbd>T</kbd></td><td>Labels. <kbd>Enter</kbd> confirms, <kbd>Shift</kbd>+<kbd>Enter</kbd> adds a line</td></tr>
+<tr><td>Highlight</td><td><kbd>H</kbd></td><td>Translucent marker</td></tr>
+<tr><td>Blur</td><td><kbd>B</kbd></td><td>Pixelate sensitive data (names, plates, keys…)</td></tr>
+<tr><td>Step</td><td><kbd>N</kbd></td><td>Numbered circles 1, 2, 3… to explain a procedure</td></tr></table>
+<p>Choose the colour and thickness in the bar; <kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes and <kbd>Ctrl</kbd>+<kbd>Y</kbd> redoes. To finish you have three options: <b>Save as copy</b> (recommended: the original is kept), <b>Replace</b> (asks for confirmation) or <b>To clipboard</b>.</p>
+<div class="note warn">Blur pixelates the area in the saved image, but the unblurred original stays in the archive if you used “Save as copy”. Always share the annotated copy, not the original.</div>
+</section>
+
+<section id="imprimir"><h2>09 · Output</h2><div class="st">Print and export to PDF</div>
+<p><i>File › Print</i> (<kbd>Ctrl</kbd>+<kbd>P</kbd>) uses the selection or, if there is none, the current view.</p>
+<table class="tbl"><tr><th>Option</th><th>Values</th></tr>
+<tr><td>Per page</td><td>1, 2, 4 (2×2), 6 (2×3), 9 (3×3) or 16 (4×4, contact sheet)</td></tr>
+<tr><td>Orientation</td><td>A4 portrait or landscape</td></tr>
+<tr><td>Caption under each image</td><td>Name, name and notes, or none</td></tr>
+<tr><td>Header</td><td>Free text (by default, the name of the open collection)</td></tr></table>
+<ul><li><b>Print…</b> opens the browser dialog. Margins and scale may vary between browsers.</li>
+<li><b>Export PDF</b> generates a PDF directly, with no dependencies: JPEG images at 90 % quality (~200 dpi) and a footer with date and page number.</li></ul>
+<div class="note warn">PDF text only supports Latin characters (Latin-1): other alphabets appear as “?”. Archived texts are printed as an image of their content.</div>
+</section>
+
+<section id="dreceres"><h2>10 · Keyboard</h2><div class="st">Shortcuts</div>
+<table class="tbl"><tr><th>Key</th><th>Action</th></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Capture screen, window or tab</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Capture and crop a region</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>T</kbd></td><td>Capture with a 5 s timer</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Paste into the archive (image or text)</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Put the selection on the clipboard</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Import files or .zip</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td>Print or export PDF</td></tr>
+<tr><td><kbd>E</kbd> / double-click</td><td>Annotate</td></tr>
+<tr><td><kbd>F1</kbd></td><td>Open this manual</td></tr>
+<tr><td><kbd>F2</kbd></td><td>Rename</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Duplicate</td></tr>
+<tr><td><kbd>S</kbd></td><td>Star</td></tr>
+<tr><td><kbd>Del</kbd></td><td>Delete</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>Select all</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>Deselect / close</td></tr></table>
+<p>The <kbd>Alt</kbd> shortcuts only work while the app is in the foreground.</p>
+</section>
+
+<section id="limits"><h2>11 · Limitations</h2><div class="st">Limitations of version 0.1.2</div>
+<div class="note stop"><b>Preview version: not an RC.</b> These limitations come from the browser; the Electron version will solve most of them.</div>
+<h3>Capture</h3>
+<ul><li>The browser asks what to share every time; there is no silent or one-click capture.</li>
+<li>There is no global system shortcut.</li>
+<li>It does not work on phones or tablets (they lack <code>getDisplayMedia</code>); there you can only paste or import.</li>
+<li>The capture is a frame of the shared video: the browser's sharing notice may appear and, depending on the system, the cursor.</li>
+<li>Cropping is done on the already captured image.</li></ul>
+<h3>Clipboard</h3>
+<ul><li>It cannot be watched in the background; it is only read when you return to the app.</li>
+<li>Reading requires permission (Firefox and Safari have limited support).</li>
+<li>Image and plain text only; rich formats and copied files are not kept.</li>
+<li>When writing, images are always converted to PNG.</li>
+<li>https or localhost is required. With <code>file://</code>, reading and writing may fail and automatic history is disabled.</li></ul>
+<h3>Archive</h3>
+<ul><li>The archive is in the browser's IndexedDB, tied to this browser and this address.</li>
+<li>Space is limited by the browser quota.</li>
+<li>There is no synchronisation between devices and no direct saving to a disk folder.</li></ul>
+<h3>Printing and PDF</h3>
+<ul><li>Margins and scale depend on the browser.</li>
+<li>The PDF stores JPEG (no transparency) and Latin characters only.</li></ul>
+<h3>Not available yet</h3>
+<ul><li>Sending to guaitaPDF Edit, guaita.MDeditor or other Guaita apps.</li>
+<li>OCR of the captures.</li></ul>
+</section>
+
+<section id="electron"><h2>12 · For developers</h2><div class="st">Towards Electron</div>
+<p>The app detects <code>window.guaitaBridge</code> (exposed from the Electron <i>preload</i>) and, if present, uses it instead of the browser APIs. That way the same interface serves both versions:</p>
+<pre><code>window.guaitaBridge = {
+  captureScreen(): Promise&lt;Blob&gt;,                       // capture without dialog (desktopCapturer)
+  readClipboard(): Promise&lt;{ image?: Blob, text?: string, types?: string[] }&gt;,
+  writeClipboard({ image?: Blob, text?: string }): Promise&lt;void&gt;,
+  onClipboardChange(callback): void                     // continuous watching
+};</code></pre>
+<p>Electron will add continuous clipboard watching with a complete history, global shortcuts, a system tray icon and capture without a dialog.</p>
+</section>
+
+<section id="faq"><h2>13 · FAQ</h2><div class="st">Frequently asked questions</div>
+<details><summary>The browser asks for clipboard permission again and again</summary><p>This happens when the HTML is opened as a file (<code>file://</code>). Serve the app over <code>https://</code> or <code>localhost</code>, or install it as a PWA. Since version 0.1.1 automatic history never asks for permission by itself.</p></details>
+<details><summary>Why can't I capture from my phone?</summary><p>Mobile browsers do not offer screen capture to web pages. You can paste or import images.</p></details>
+<details><summary>I lost my captures</summary><p>If browsing data was cleared, or the address or browser changed, the archive is not there. That is why you should export the .zip often and enable persistent storage.</p></details>
+<details><summary>Can I use the CAT and ENG versions at the same time?</summary><p>Yes. They share the same archive when opened from the same address. The <i>Help</i> menu has a link to switch language.</p></details>
+<details><summary>What licence does it have?</summary><p>AGPL-3.0-only. See the <code>LICENSE</code> and <code>NOTICE.md</code> files in the repository.</p></details>
+</section>
+
+</main></div>
+
+<footer><div class="in"><div class="fb"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA · CAPTURA</div>
+<p>SBS BIM Consulting 2026 · Copyright © 2026 Jordi Subirós · AGPL-3.0-only</p><p>Guaita Apps is distributed “as is”, without any warranty. The tools are designed from research and as technical and educational support; verification of the results and the responsibility arising from their use rest solely with the end user.</p></div></footer>
+<script>
+const ls=[...document.querySelectorAll('nav.toc a')],ss=ls.map(a=>document.querySelector(a.getAttribute('href')));
+function on(){let y=scrollY+120,k=0;ss.forEach((s,i)=>{if(s&&s.offsetTop<=y)k=i});ls.forEach((a,i)=>a.classList.toggle('on',i==k))}
+addEventListener('scroll',on);on();
+document.getElementById('th').onclick=()=>{const r=document.documentElement,l=getComputedStyle(r).getPropertyValue('--bg').trim()=='#eef0e0';r.dataset.t=l?'d':'l'};
+</script></body></html>

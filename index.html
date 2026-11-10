@@ -1,0 +1,62 @@
+<!--
+  Guaita Apps - Suite d'eines autònomes per a arquitectura, BIM i documentació.
+  Copyright (c) 2026 Jordi Subirós
+  GNU Affero General Public License v3.0
+  See LICENSE file for details
+-->
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>guaitaCaptura · gestor de captures i porta-retalls · screenshot and clipboard manager</title>
+<meta name="description" content="guaitaCaptura: captura, arxiva, anomena, reutilitza i imprimeix captures de pantalla. Capture, archive, name, reuse and print screenshots. Guaita Apps.">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#0b0d07;--bg2:#12160a;--card:#1c220c;--bd:#2b3313;--tx:#e6ecd2;--mut:#99a37a;--a:#C6FF00;--a2:#FF2ECC;--a3:#00E5FF;--a4:#FFE500;--on:#0b0d07}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 'Space Grotesk','IBM Plex Sans',system-ui,sans-serif;background-image:linear-gradient(var(--bd) 1px,transparent 1px),linear-gradient(90deg,var(--bd) 1px,transparent 1px);background-size:48px 48px;background-attachment:fixed}
+main{max-width:920px;margin:0 auto;padding:56px 24px 40px}
+.brand{display:flex;align-items:center;gap:10px;font:700 15px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.2em}
+.brand small{font-weight:400;color:var(--mut);letter-spacing:.1em;text-transform:lowercase;font-size:12px}
+.cells{display:grid;grid-template-columns:repeat(2,13px);gap:2px}.cells span{width:13px;height:13px}
+.cells span:nth-child(1){background:#C6FF00}.cells span:nth-child(2){background:#FF2ECC}.cells span:nth-child(3){background:#00E5FF}.cells span:nth-child(4){background:#FFE500}
+.tag{display:inline-block;margin:26px 0 8px;padding:2px 10px;border:1px solid var(--a4);color:var(--a4);font:12px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,60px);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}h1 em{color:var(--a);font-style:normal}
+.lead{max-width:720px;color:var(--mut);font-size:18px}
+.warn{border-left:3px solid var(--a4);background:var(--card);padding:10px 16px;margin:22px 0;color:var(--tx)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin:26px 0}
+.col{background:var(--card);border:1px solid var(--bd);padding:20px}
+.col h2{font:12px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin:0 0 10px}
+a.btn{display:inline-block;background:var(--a);color:var(--on);font-weight:700;text-decoration:none;padding:9px 16px;margin:4px 8px 4px 0}
+a.btn.sec{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+a.btn:hover{filter:brightness(1.1)}
+ul{color:var(--mut);padding-left:20px}
+footer{border-top:1px solid var(--bd);background:var(--bg2);padding:26px 24px;color:var(--mut);font-size:13px}
+footer .in{max-width:920px;margin:0 auto}
+.fb{display:flex;align-items:center;gap:8px;font:700 12px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.18em;color:var(--tx);margin-bottom:10px}
+.fb .cells{grid-template-columns:repeat(2,6px)}.fb .cells span{width:6px;height:6px}
+footer a{color:var(--a)}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA<small>captura</small></div>
+<span class="tag">0.1.2 · preliminar · preview · no RC</span>
+<h1>Guaita <em>Captura</em></h1>
+<p class="lead">Gestor de captures de pantalla i de porta-retalls: capturar, arxivar, anomenar, reutilitzar i imprimir. Tot es desa localment al navegador. · Screenshot and clipboard manager: capture, archive, name, reuse and print. Everything stays local in your browser.</p>
+<div class="warn"><b>Versió preliminar, no és Release Candidate.</b> PWA de proves abans de la versió d'escriptori (Electron). La captura passa pel diàleg del navegador i el porta-retalls només es llegeix amb l'app en primer pla. Exporteu l'arxiu sovint.<br><b>Preview version, not a Release Candidate.</b> Test PWA ahead of the desktop (Electron) version. Capture goes through the browser dialog and the clipboard is only read while the app is in the foreground. Export the archive often.</div>
+<div class="cols">
+<div class="col"><h2>Català</h2>
+<a class="btn" href="pagesCAT/guaitaCaptura.html">Obre l'app</a><a class="btn sec" href="pagesCAT/HLP%20guaitaCaptura-ajuda.html">Manual d'ús</a>
+<ul><li>Captura de pantalla, finestra o pestanya, amb retall, temporitzador i ràfega</li><li>Arxiu amb col·leccions, etiquetes, cerca i notes; exportació .zip</li><li>Plantilles de nom i reanomenat per lots</li><li>Anotació: fletxes, rectangles, text, ressaltat, difuminat i passos</li><li>Porta-retalls: veure'l, substituir-lo i triar la imatge que hi deixes</li><li>Impressió i PDF en fulls de contactes</li></ul></div>
+<div class="col"><h2>English</h2>
+<a class="btn" href="pagesENG/guaitaCaptura.html">Open the app</a><a class="btn sec" href="pagesENG/HLP%20guaitaCaptura-help_EN.html">User guide</a>
+<ul><li>Capture a screen, window or tab, with crop, timer and burst</li><li>Archive with collections, tags, search and notes; .zip export</li><li>Name templates and batch rename</li><li>Annotation: arrows, rectangles, text, highlight, blur and steps</li><li>Clipboard: view it, replace it and choose which image you leave on it</li><li>Print and PDF contact sheets</li></ul></div>
+</div>
+<p style="color:var(--mut)">Codi i descàrregues · Source and downloads: <a href="https://github.com/subi2/guaitaCaptura" style="color:var(--a)">github.com/subi2/guaitaCaptura</a></p>
+</main>
+<footer><div class="in"><div class="fb"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA · CAPTURA</div>
+<p>SBS BIM Consulting 2026 · Copyright © 2026 Jordi Subirós · AGPL-3.0-only · <a href="LICENSE">LICENSE</a> · <a href="NOTICE.md">NOTICE</a></p>
+<p>Guaita Apps es distribueix «tal com és», sense cap garantia. Les eines estan pensades desde la recerca i com a suport tècnic i educatiu; la verificació dels resultats i la responsabilitat derivada del seu ús recauen únicament sobre l'usuari final.</p>
+<p>Guaita Apps is distributed “as is”, without any warranty. The tools are designed from research and as technical and educational support; verification of the results and the responsibility arising from their use rest solely with the end user.</p></div></footer>
+</body></html>
