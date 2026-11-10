@@ -3,7 +3,7 @@
 **guaitaCaptura** · SBS BIM Consulting 2026
 Copyright © 2026 Jordi Subirós · Llicència **GNU AGPL v3.0** (`AGPL-3.0-only`), vegeu el fitxer [`LICENSE`](LICENSE).
 
-Versió del programa: **0.2.1** (preliminar, **no és Release Candidate**) · Versió del NOTICE: **1**
+Versió del programa: **0.2.2** (preliminar, **no és Release Candidate**) · Versió del NOTICE: **1**
 
 ---
 
