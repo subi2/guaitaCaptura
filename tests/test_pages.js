@@ -3,13 +3,14 @@
 const fs=require('fs'),path=require('path'),assert=require('assert');
 const R=path.join(__dirname,'..');let ok=0,ko=0;const t=(n,f)=>{try{f();ok++;}catch(e){ko++;console.log('FAIL',n,'—',e.message);}};
 const rd=p=>fs.readFileSync(path.join(R,p),'utf8');
-const AGPL=`<!--\n  Guaita Apps - Suite d'eines autònomes per a arquitectura, BIM i documentació.\n  Copyright (c) 2026 Jordi Subirós\n  GNU Affero General Public License v3.0\n  See LICENSE file for details\n-->`;
+const AGPL={CAT:`<!--\n  Guaita Apps - Suite d'eines autònomes per a arquitectura, BIM i documentació.\n  Copyright (c) 2026 Jordi Subirós\n  GNU Affero General Public License v3.0\n  See LICENSE file for details\n-->`,
+ ENG:`<!--\n  Guaita Apps - Suite of standalone tools for architecture, BIM and documentation.\n  Copyright (c) 2026 Jordi Subirós\n  GNU Affero General Public License v3.0\n  See LICENSE file for details\n-->`};
 const DISC={CAT:"Guaita Apps es distribueix «tal com és», sense cap garantia. Les eines estan pensades desde la recerca i com a suport tècnic i educatiu; la verificació dels resultats i la responsabilitat derivada del seu ús recauen únicament sobre l'usuari final.",
  ENG:"Guaita Apps is distributed “as is”, without any warranty. The tools are designed from research and as technical and educational support; verification of the results and the responsibility arising from their use rest solely with the end user."};
 const HELP={CAT:'HLP guaitaCaptura-ajuda.html',ENG:'HLP guaitaCaptura-help_EN.html'};
 for(const L of ['CAT','ENG']){const d='pages'+L;
   const h=rd(`${d}/${HELP[L]}`);
-  t(`${L} ajuda: capçalera AGPL a dalt de tot`,()=>assert.ok(h.startsWith(AGPL+'\n<!DOCTYPE html>')));
+  t(`${L} ajuda: capçalera AGPL a dalt de tot`,()=>assert.ok(h.startsWith(AGPL[L]+'\n<!DOCTYPE html>')));
   t(`${L} ajuda: signatura`,()=>assert.ok(h.includes('SBS BIM Consulting 2026')));
   t(`${L} ajuda: disclaimer`,()=>assert.ok(h.includes(DISC[L])));
   t(`${L} ajuda: marca de 4 quadrats (hero i peu) i colors`,()=>{assert.strictEqual((h.match(/<span class="cells"><span><\/span><span><\/span><span><\/span><span><\/span><\/span>/g)||[]).length,2);const c=['#C6FF00','#FF2ECC','#00E5FF','#FFE500'].map(x=>h.indexOf(x));assert.ok(c.every(i=>i>0)&&c[0]<c[1]&&c[1]<c[2]&&c[2]<c[3]);});
