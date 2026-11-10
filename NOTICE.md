@@ -3,7 +3,7 @@
 **guaitaCaptura** · SBS BIM Consulting 2026
 Copyright © 2026 Jordi Subirós · Llicència **GNU AGPL v3.0** (`AGPL-3.0-only`), vegeu el fitxer [`LICENSE`](LICENSE).
 
-Versió del programa: **0.1.2** (preliminar, **no és Release Candidate**) · Versió del NOTICE: **1**
+Versió del programa: **0.2.0** (preliminar, **no és Release Candidate**) · Versió del NOTICE: **1**
 
 ---
 
@@ -27,7 +27,7 @@ guaitaCaptura is a **preview version** and is offered **without any warranty**: 
 
 ## Components de tercers · Third-party components
 
-guaitaCaptura no incrusta cap biblioteca de tercers. La captura, el retall, l'anotació, el .zip i la generació de PDF són codi propi (JavaScript sense dependències). Només s'hi incrusten tipografies:
+guaitaCaptura no incrusta cap biblioteca de tercers. La captura, el retall, l'editor, el .zip i la generació de PDF són codi propi (JavaScript sense dependències). Només s'hi incrusten tipografies:
 
 | Component | Ús | Llicència | Fitxer |
 |---|---|---|---|

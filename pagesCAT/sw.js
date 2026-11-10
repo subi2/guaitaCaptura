@@ -1,7 +1,7 @@
-/* guaitaCaptura 0.1.2 (preliminar, no RC) · service worker
+/* guaitaCaptura 0.2.0 (preliminar, no RC) · service worker
    Copyright (c) 2026 SBS BiM Consulting, Jordi Subirós · SPDX-License-Identifier: AGPL-3.0-only
    Network first (always the latest version), cache as fallback. */
-const CACHE = 'guaita-captura-ca-012';
+const CACHE = 'guaita-captura-ca-020';
 const SHELL = ['./guaitaCaptura.html', "HLP guaitaCaptura-ajuda.html", 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-512-maskable.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE && k.startsWith('guaita-captura-ca-')).map(k => caches.delete(k)))).then(() => self.clients.claim())); });

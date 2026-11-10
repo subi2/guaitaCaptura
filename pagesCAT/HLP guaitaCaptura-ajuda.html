@@ -49,13 +49,13 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 </style></head><body>
 <button id="th" title="theme">◐</button>
 <header class="hero"><div class="brand"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA<small>captura</small></div>
-<span class="tag">Manual d'ús · 0.1.2 · preliminar</span><h1>Guaita <em>Captura</em></h1><p class="lead">Gestor de captures de pantalla i de porta-retalls en un sol fitxer HTML. Captura, arxiva, anomena, reutilitza i imprimeix. No s'instal·la res, no es connecta a cap servidor i tot es desa al teu navegador: les teves captures no surten del teu ordinador.</p></header>
-<div class="wrap"><nav class="toc"><a href="#intro">Què és</a><a href="#comencar">Començar</a><a href="#pantalla">La pantalla</a><a href="#capturar">Capturar</a><a href="#arxivar">Arxivar</a><a href="#anomenar">Anomenar</a><a href="#reutilitzar">Reutilitzar</a><a href="#anotar">Anotar</a><a href="#imprimir">Imprimir i PDF</a><a href="#dreceres">Dreceres</a><a href="#limits">Limitacions</a><a href="#electron">Cap a Electron</a><a href="#faq">Preguntes freqüents</a></nav>
+<span class="tag">Manual d'ús · 0.2.0 · preliminar</span><h1>Guaita <em>Captura</em></h1><p class="lead">Gestor de captures de pantalla i de porta-retalls en un sol fitxer HTML. Captura, arxiva, anomena, reutilitza i imprimeix. No s'instal·la res, no es connecta a cap servidor i tot es desa al teu navegador: les teves captures no surten del teu ordinador.</p></header>
+<div class="wrap"><nav class="toc"><a href="#intro">Què és</a><a href="#comencar">Començar</a><a href="#pantalla">La pantalla</a><a href="#capturar">Capturar</a><a href="#retallar">Retallar</a><a href="#arxivar">Arxivar</a><a href="#anomenar">Anomenar</a><a href="#reutilitzar">Reutilitzar</a><a href="#anotar">Editor</a><a href="#imprimir">Imprimir i PDF</a><a href="#dreceres">Dreceres</a><a href="#limits">Limitacions</a><a href="#electron">Cap a Electron</a><a href="#faq">Preguntes freqüents</a></nav>
 <main>
 
 <section id="intro"><h2>01 · Introducció</h2><div class="st">Què és guaitaCaptura</div>
 <p>guaitaCaptura reuneix en una sola eina cinc tasques: <b>capturar</b> la pantalla, <b>arxivar</b> les captures amb ordre, <b>anomenar-les</b> amb plantilles, <b>reutilitzar-les</b> (també com a gestor del porta-retalls del sistema) i <b>imprimir-les</b> o exportar-les a PDF.</p>
-<div class="note stop"><b>Versió preliminar 0.1.2, no és una Release Candidate.</b> És una PWA de proves prèvia a la versió d'escriptori (Electron). Pot tenir errors i el format intern de l'arxiu pot canviar entre versions. <b>Exporta l'arxiu (.zip) sovint</b> i llegeix les <a href="#limits">limitacions</a> abans de confiar-hi feina important.</div>
+<div class="note stop"><b>Versió preliminar 0.2.0, no és una Release Candidate.</b> És una PWA de proves prèvia a la versió d'escriptori (Electron). Pot tenir errors i el format intern de l'arxiu pot canviar entre versions. <b>Exporta l'arxiu (.zip) sovint</b> i llegeix les <a href="#limits">limitacions</a> abans de confiar-hi feina important.</div>
 <div class="note">Privadesa: tot es processa <b>localment</b> al navegador. No hi ha comptes, ni servidors, ni telemetria.</div>
 </section>
 
@@ -84,21 +84,43 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <h3>Capturar la pantalla</h3>
 <ol class="steps">
 <li>Prem <kbd>Alt</kbd>+<kbd>S</kbd> o el botó <b>Capturar</b>.</li>
-<li>El navegador et demana quina <b>pantalla, finestra o pestanya</b> vols compartir. Tria-la.</li>
-<li>L'app agafa un fotograma i el desa a l'arxiu amb el nom de la plantilla.</li>
+<li>El navegador mostra el seu diàleg. L'app hi proposa el tipus triat a <i>Captura › Què proposa el diàleg</i>: <b>pantalla sencera</b> (per defecte), finestra o pestanya.</li>
+<li>Si has triat la pantalla sencera, <b>canvia a la finestra que vols capturar</b>: la captura es fa 1,5 s després de sortir de l'app (o al cap de 10 s). Així guaitaCaptura no surt a la imatge.</li>
+<li>En tornar a l'app trobes la <b>previsualització</b>: desa-la sencera, retalla-la, anota-la, copia-la al porta-retalls o descarta-la.</li>
 </ol>
-<div class="note warn">El navegador demana la selecció cada vegada: no existeix la captura silenciosa ni la drecera global. Aquestes limitacions desapareixeran amb la versió Electron.</div>
+<div class="note warn">El diàleg del navegador no es pot evitar ni forçar: l'app només hi proposa un tipus, i el navegador pot ignorar la proposta. No existeix la captura silenciosa ni la drecera global. Tot això desapareixerà amb la versió Electron.</div>
+<h3>Sessió de captura: un sol diàleg per a moltes captures</h3>
+<p><i>Captura › Iniciar una sessió de captura</i> (<kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>S</kbd>) obre el diàleg una sola vegada i manté la font oberta. A partir d'aquí, cada <kbd>Alt</kbd>+<kbd>S</kbd> captura sense tornar a preguntar. A dalt a la dreta veus la sessió activa; atura-la amb la <b>✕</b> o des del navegador.</p>
+<h3>Opcions de captura</h3>
+<table class="tbl"><tr><th>Opció</th><th>Què fa</th></tr>
+<tr><td>Què proposa el diàleg</td><td>Pantalla sencera, finestra o pestanya del navegador.</td></tr>
+<tr><td>Amaga l'opció de pantalla sencera</td><td>Només quan es proposa finestra o pestanya.</td></tr>
+<tr><td>Previsualitza i retalla abans de desar</td><td>Si la desactives, cada captura es desa directament.</td></tr>
+<tr><td>Pantalla sencera: espera que canviï de finestra</td><td>Si la desactives, es captura a l'instant.</td></tr>
+<tr><td>Inclou el cursor</td><td>Demana al navegador que mostri o amagui el cursor.</td></tr></table>
 <h3>Altres formes d'entrar imatges</h3>
 <table class="tbl"><tr><th>Mode</th><th>Com</th><th>Detall</th></tr>
-<tr><td>Retall de regió</td><td><kbd>Alt</kbd>+<kbd>R</kbd> o <i>Captura › Retall de regió</i></td><td>Captura la pantalla i et deixa seleccionar un rectangle. <kbd>Intro</kbd> desa el retall (o tota la imatge si no n'has marcat cap), <kbd>Esc</kbd> cancel·la.</td></tr>
+<tr><td>Capturar i retallar</td><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Obre sempre l'eina de retall, encara que la previsualització estigui desactivada.</td></tr>
 <tr><td>Temporitzador</td><td><kbd>Alt</kbd>+<kbd>T</kbd> (5 s) o <i>Captura › Amb temporitzador</i></td><td>3, 5 o 10 segons, o 5 segons amb retall. Surt un compte enrere gran.</td></tr>
-<tr><td>Ràfega</td><td><i>Captura › Ràfega</i></td><td>5 o 10 captures, una per segon, útils per documentar un procés.</td></tr>
+<tr><td>Ràfega</td><td><i>Captura › Ràfega</i></td><td>5 o 10 captures, una per segon, sense previsualització.</td></tr>
 <tr><td>Enganxar</td><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Enganxa imatges o text. Funciona sempre, sense permisos. Els duplicats s'avisen i no es tornen a desar.</td></tr>
-<tr><td>Arrossegar o importar</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd> o arrossegar al centre</td><td>Imatges (PNG, JPG, WebP, GIF…), text (.txt) i arxius .zip d'guaitaCaptura.</td></tr>
+<tr><td>Arrossegar o importar</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd> o arrossegar al centre</td><td>Imatges (PNG, JPG, WebP, GIF…), text (.txt) i arxius .zip de guaitaCaptura.</td></tr>
 <tr><td>Des del porta-retalls</td><td>Botó <b>Del porta-retalls</b></td><td>Llegeix el que hi ha al porta-retalls del sistema i ho desa.</td></tr></table>
 </section>
 
-<section id="arxivar"><h2>05 · Arxivar</h2><div class="st">Ordenar, cercar i guardar</div>
+<section id="retallar"><h2>05 · Retallar</h2><div class="st">Retall ajustable i formes no rectangulars</div>
+<p>L'eina de retall s'obre en capturar (previsualització) i també sobre qualsevol imatge de l'arxiu: tecla <kbd>R</kbd>, <i>Edita › Retallar</i> o botó dret. En retallar una imatge de l'arxiu, l'original es conserva i el retall es desa com una captura nova.</p>
+<table class="tbl"><tr><th>Element</th><th>Ús</th></tr>
+<tr><td>Forma</td><td><b>Rectangle</b>, <b>cantonades arrodonides</b> (amb radi), <b>el·lipse</b>, <b>polígon</b> (clica els vèrtexs) i <b>llaç a mà alçada</b>. Fora de la forma, el resultat és <b>transparent</b> (PNG).</td></tr>
+<tr><td>Nanses</td><td>Arrossega les vuit nanses per ajustar, o l'interior per moure el retall. En un polígon tancat, arrossega els vèrtexs.</td></tr>
+<tr><td>Proporció</td><td>Lliure, 1:1, 4:3, 3:2, 16:9, A4 vertical o A4 horitzontal.</td></tr>
+<tr><td>X, Y, W, H</td><td>Posició i mida exactes en píxels.</td></tr>
+<tr><td>Lupa</td><td>Amplia els píxels sota el cursor i en mostra les coordenades.</td></tr>
+<tr><td>Teclat</td><td>Fletxes mouen 1 px (<kbd>Maj</kbd> = 10 px), <kbd>Ctrl</kbd>+<kbd>A</kbd> ho selecciona tot, <kbd>Intro</kbd> desa i <kbd>Esc</kbd> descarta. En un polígon, <kbd>Retrocés</kbd> treu l'últim vèrtex.</td></tr></table>
+<p>Botons: <b>Desa el retall</b>, <b>Desa sencera</b>, <b>Desa i anota</b> (obre l'editor), <b>Desa i copia</b> (també al porta-retalls) i <b>Descarta</b>. El botó dret obre el menú contextual amb les mateixes accions.</p>
+</section>
+
+<section id="arxivar"><h2>06 · Arxivar</h2><div class="st">Ordenar, cercar i guardar</div>
 <ul>
 <li><b>Col·leccions.</b> Crea-les amb el <kbd>+</kbd> del panell esquerre o des de <i>Edita › Moure a col·lecció</i>. Si tens una col·lecció oberta, les captures noves s'hi desen directament. Es poden reanomenar i eliminar (els elements es conserven sense col·lecció).</li>
 <li><b>Etiquetes.</b> Escriu-les separades per comes al detall. Per assignar-ne a diversos elements alhora, selecciona'ls i usa «Afegir etiquetes».</li>
@@ -112,7 +134,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <div class="note warn">L'arxiu viu al navegador i a l'adreça on l'has fet servir. Esborrar les dades de navegació l'esborra. Activa l'<b>emmagatzematge persistent</b> a <i>Configuració</i> i fes còpies .zip regularment.</div>
 </section>
 
-<section id="anomenar"><h2>06 · Anomenar</h2><div class="st">Plantilles de nom i reanomenat per lots</div>
+<section id="anomenar"><h2>07 · Anomenar</h2><div class="st">Plantilles de nom i reanomenat per lots</div>
 <p>Cada captura nova rep un nom a partir d'una plantilla, configurable a <i>Fitxer › Configuració</i>. Per defecte: <code>{origen}_{data}_{hora}_{n}</code>.</p>
 <table class="tbl"><tr><th>Fitxa</th><th>Valor</th></tr>
 <tr><td><code>{nom}</code></td><td>Nom actual (al reanomenar per lots) o primeres paraules d'un text</td></tr>
@@ -126,7 +148,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>Selecciona diversos elements i usa <i>Edita › Reanomenar per lots</i>: tria la plantilla i el número inicial, i veuràs una previsualització. S'aplica de la més antiga a la més nova. Per reanomenar un de sol, edita el camp «Nom» del detall o prem <kbd>F2</kbd>.</p>
 </section>
 
-<section id="reutilitzar"><h2>07 · Reutilitzar</h2><div class="st">El porta-retalls i els teus elements</div>
+<section id="reutilitzar"><h2>08 · Reutilitzar</h2><div class="st">El porta-retalls i els teus elements</div>
 <p>El panell dret mostra el contingut actual del <b>porta-retalls del sistema</b> (imatge o text) i permet substituir-lo per qualsevol element de l'arxiu.</p>
 <ol class="steps">
 <li>Prem <b>Llegeix</b> per veure què hi ha al porta-retalls (el navegador demana permís el primer cop).</li>
@@ -139,25 +161,39 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>Si està activat, cada cop que tornes a l'app es llegeix el porta-retalls i, si hi ha contingut nou, es desa a l'arxiu (vista «Historial porta-retalls»). Només funciona si el permís ja està concedit i no llegeix durant una captura.</p>
 <div class="note warn">El navegador no permet vigilar el porta-retalls en segon pla: si copies diverses coses seguides en altres programes, només es desa l'última. Les imatges s'hi posen sempre en PNG.</div>
 <h3>Altres maneres de reutilitzar</h3>
-<ul><li><b>Duplicar</b> (<kbd>Ctrl</kbd>+<kbd>D</kbd>): còpia abans d'editar; l'original es conserva sempre.</li>
+<ul><li><b>Duplicar</b> (<kbd>Ctrl</kbd>+<kbd>D</kbd>): fa una còpia abans d'editar.</li>
 <li><b>Arrossegar</b> una miniatura fora de l'app (a l'escriptori o a l'explorador, a Chrome/Edge) per desar-la com a fitxer.</li>
 <li><b>Descarregar</b> en PNG, JPEG, WebP o format original.</li></ul>
 </section>
 
-<section id="anotar"><h2>08 · Anotar</h2><div class="st">Editor d'anotacions</div>
-<p>Doble clic sobre una imatge, <kbd>E</kbd> o <i>Edita › Anotar</i>. Les eines i les seves dreceres:</p>
-<table class="tbl"><tr><th>Eina</th><th>Drecera</th><th>Per a què</th></tr>
-<tr><td>Rectangle</td><td><kbd>R</kbd></td><td>Emmarcar una zona</td></tr>
-<tr><td>Fletxa</td><td><kbd>F</kbd></td><td>Assenyalar un detall</td></tr>
-<tr><td>Text</td><td><kbd>T</kbd></td><td>Etiquetes. <kbd>Intro</kbd> confirma, <kbd>Maj</kbd>+<kbd>Intro</kbd> afegeix una línia</td></tr>
-<tr><td>Ressaltar</td><td><kbd>H</kbd></td><td>Marcador translúcid</td></tr>
-<tr><td>Difuminar</td><td><kbd>B</kbd></td><td>Pixelar dades sensibles (noms, matrícules, claus…)</td></tr>
-<tr><td>Pas</td><td><kbd>N</kbd></td><td>Cercles numerats 1, 2, 3… per explicar un procediment</td></tr></table>
-<p>Tria el color i el gruix a la barra; <kbd>Ctrl</kbd>+<kbd>Z</kbd> desfà i <kbd>Ctrl</kbd>+<kbd>Y</kbd> refà. Per acabar tens tres opcions: <b>Desa com a còpia</b> (recomanada: l'original es conserva), <b>Substitueix</b> (demana confirmació) o <b>Al porta-retalls</b>.</p>
-<div class="note warn">Difuminar pixela la zona a la imatge desada, però l'original sense difuminar es conserva a l'arxiu si has usat «Desa com a còpia». Comparteix sempre la còpia anotada, no l'original.</div>
+<section id="anotar"><h2>09 · Editor</h2><div class="st">Anotar, dibuixar i editar la imatge</div>
+<p>Doble clic sobre una imatge, <kbd>E</kbd> o <i>Edita › Anotar i editar</i>. A l'esquerra hi ha les eines; a dalt, les propietats i els menús <b>Imatge</b>, <b>Selecció</b> i <b>Objecte</b>; el botó dret obre el menú contextual.</p>
+<h3>Objectes editables</h3>
+<p>Tot el que dibuixes és un <b>objecte</b>. Amb l'eina de selecció (<kbd>V</kbd>) el pots moure, redimensionar amb les nanses, girar amb la nansa rodona (<kbd>Maj</kbd> = passos de 15°), duplicar (<kbd>Ctrl</kbd>+<kbd>D</kbd>), eliminar (<kbd>Supr</kbd>), moure amb les fletxes i canviar d'ordre (al davant, endavant, enrere, al fons). Els objectes es desen amb la captura: en tornar-la a obrir <b>es poden seguir editant</b>.</p>
+<table class="tbl"><tr><th>Eines</th><th>Detall</th></tr>
+<tr><td>Formes</td><td>Rectangle (<kbd>R</kbd>), rectangle arrodonit, el·lipse (<kbd>O</kbd>), triangle, rombe, estrella, núvol de revisió. <kbd>Maj</kbd> les fa regulars.</td></tr>
+<tr><td>Línies</td><td>Línia (<kbd>L</kbd>), fletxa (<kbd>F</kbd>), fletxa doble, polilínia i polígon (<kbd>P</kbd>): clica els vèrtexs i acaba amb doble clic o <kbd>Intro</kbd>.</td></tr>
+<tr><td>Mà alçada</td><td>Llapis (<kbd>D</kbd>) i marcador translúcid (<kbd>M</kbd>).</td></tr>
+<tr><td>Text</td><td>Text (<kbd>T</kbd>), bafarada amb punta movible, pas numerat (<kbd>N</kbd>) i segell (APROVAT, REVISAT, REBUTJAT, ESBORRANY, CONFIDENCIAL, URGENT; doble clic n'edita el text).</td></tr>
+<tr><td>Ressaltar i ocultar</td><td>Ressaltar (<kbd>H</kbd>), difuminar (<kbd>B</kbd>) i pixelar.</td></tr></table>
+<p><b>Propietats:</b> color del traç i del text, farciment (clic a una mostra = traç, <kbd>Maj</kbd>+clic = farciment), gruix, opacitat, línia discontínua i mida del text. Amb un objecte seleccionat, els canvis s'hi apliquen.</p>
+<h3>Color</h3>
+<p><i>Imatge › Ajustos de color</i> obre un panell amb <b>brillantor, contrast, saturació, to, escala de grisos, sèpia i invertir</b>, amb previsualització en viu. Si abans has fet una selecció, només s'aplica a aquella zona. L'eina <b>Substituir un color</b> canvia un color per un altre: clica el color d'origen a la imatge, tria el color nou i la tolerància, i prem «Aplica».</p>
+<h3>Transparència</h3>
+<ul>
+<li><b>Vareta màgica</b> (<kbd>W</kbd>): clica un color i el fa transparent. Ajusta la tolerància i tria si només afecta la zona contigua.</li>
+<li><b>Goma</b> (<kbd>E</kbd>): esborra a transparent; el gruix en canvia la mida.</li>
+<li><b>Seleccions</b> (<kbd>S</kbd>): rectangular, el·líptica, llaç o poligonal. Després, al menú <i>Selecció</i>: fes-la transparent (<kbd>Supr</kbd>), fes transparent l'exterior, retalla la imatge a la selecció, ajusta'n el color o copia-la.</li>
+<li><b>Opacitat global</b>: fa semitransparent tota la imatge base.</li>
+</ul>
+<h3>Imatge</h3>
+<p>Girar 90°, emmirallar, redimensionar, afegir marge o vora (de color o transparent) i fusionar les anotacions amb la imatge. Hi ha zoom (ajusta, 50–400 %) i desfer/refer (<kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd>).</p>
+<h3>Desar</h3>
+<p><b>Desa</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) actualitza la captura; si has canviat la imatge base (color, transparència, mida), demana confirmació. <b>Desa com a còpia</b> crea una captura nova i deixa l'original intacte. <b>Al porta-retalls</b> copia el resultat o la zona seleccionada.</p>
+<div class="note warn">Girar, emmirallar, redimensionar i el retall no rectangular fusionen les anotacions amb la imatge. La vareta, la goma i la substitució de color actuen sobre la imatge base, no sobre les anotacions. Difuminar no protegeix res si comparteixes la captura original: comparteix sempre la versió editada.</div>
 </section>
 
-<section id="imprimir"><h2>09 · Sortida</h2><div class="st">Imprimir i exportar a PDF</div>
+<section id="imprimir"><h2>10 · Sortida</h2><div class="st">Imprimir i exportar a PDF</div>
 <p><i>Fitxer › Imprimir</i> (<kbd>Ctrl</kbd>+<kbd>P</kbd>) usa la selecció o, si no n'hi ha, la vista actual.</p>
 <table class="tbl"><tr><th>Opció</th><th>Valors</th></tr>
 <tr><td>Per pàgina</td><td>1, 2, 4 (2×2), 6 (2×3), 9 (3×3) o 16 (4×4, full de contactes)</td></tr>
@@ -169,30 +205,36 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <div class="note warn">Els textos del PDF només admeten caràcters llatins (Latin-1): altres alfabets surten com a «?». Els textos arxivats s'imprimeixen com una imatge amb el seu contingut.</div>
 </section>
 
-<section id="dreceres"><h2>10 · Teclat</h2><div class="st">Dreceres</div>
+<section id="dreceres"><h2>11 · Teclat</h2><div class="st">Dreceres</div>
 <table class="tbl"><tr><th>Tecla</th><th>Acció</th></tr>
-<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Capturar pantalla, finestra o pestanya</td></tr>
-<tr><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Capturar i retallar una regió</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Capturar</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Capturar i retallar</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>T</kbd></td><td>Captura amb temporitzador de 5 s</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>S</kbd></td><td>Iniciar o aturar la sessió de captura</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Enganxar a l'arxiu (imatge o text)</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Posar la selecció al porta-retalls</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Importar fitxers o .zip</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td>Imprimir o exportar PDF</td></tr>
-<tr><td><kbd>E</kbd> / doble clic</td><td>Anotar</td></tr>
+<tr><td><kbd>E</kbd> / doble clic</td><td>Obrir l'editor</td></tr>
+<tr><td><kbd>R</kbd></td><td>Retallar la imatge seleccionada</td></tr>
+<tr><td>Botó dret</td><td>Menú contextual (miniatures, fons, col·leccions, porta-retalls, retall i editor)</td></tr>
 <tr><td><kbd>F1</kbd></td><td>Obrir aquest manual</td></tr>
 <tr><td><kbd>F2</kbd></td><td>Reanomenar</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Duplicar</td></tr>
 <tr><td><kbd>S</kbd></td><td>Destacar</td></tr>
 <tr><td><kbd>Supr</kbd></td><td>Eliminar</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>Seleccionar-ho tot</td></tr>
-<tr><td><kbd>Esc</kbd></td><td>Deseleccionar / tancar</td></tr></table>
+<tr><td><kbd>Esc</kbd></td><td>Deseleccionar / tancar</td></tr>
+<tr><td>Editor: <kbd>V</kbd> <kbd>R</kbd> <kbd>O</kbd> <kbd>L</kbd> <kbd>F</kbd> <kbd>P</kbd> <kbd>T</kbd> <kbd>D</kbd> <kbd>M</kbd> <kbd>H</kbd> <kbd>N</kbd> <kbd>B</kbd> <kbd>E</kbd> <kbd>W</kbd> <kbd>S</kbd></td><td>Selecciona, rectangle, el·lipse, línia, fletxa, polígon, text, llapis, marcador, ressaltar, pas, difuminar, goma, vareta, selecció</td></tr>
+<tr><td>Editor: <kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd> / <kbd>S</kbd></td><td>Desfer, refer i desar</td></tr></table>
 <p>Les dreceres <kbd>Alt</kbd> només funcionen amb l'app en primer pla.</p>
 </section>
 
-<section id="limits"><h2>11 · Limitacions</h2><div class="st">Limitacions de la versió 0.1.2</div>
+<section id="limits"><h2>12 · Limitacions</h2><div class="st">Limitacions de la versió 0.2.0</div>
 <div class="note stop"><b>Versió preliminar: no és RC.</b> Aquestes limitacions són del navegador; la versió Electron en resoldrà la major part.</div>
 <h3>Captura</h3>
-<ul><li>El navegador demana cada vegada què compartir; no hi ha captura silenciosa ni d'un sol clic.</li>
+<ul><li>El navegador sempre mostra el seu diàleg; l'app només hi proposa un tipus. Una sessió de captura evita repetir-lo.</li>
+<li>En capturar la pantalla sencera cal canviar de finestra; si no, l'app surt a la captura.</li>
 <li>No hi ha drecera global del sistema.</li>
 <li>No funciona en mòbils ni tauletes (no tenen <code>getDisplayMedia</code>); allà només es pot enganxar o importar.</li>
 <li>La captura és un fotograma del vídeo compartit: pot aparèixer l'avís de compartició del navegador i, segons el sistema, el cursor.</li>
@@ -203,19 +245,23 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <li>Només imatge i text pla; no es conserven formats rics ni fitxers copiats.</li>
 <li>En escriure, les imatges es converteixen sempre a PNG.</li>
 <li>Cal https o localhost. Amb <code>file://</code> la lectura i l'escriptura poden fallar i l'historial automàtic queda desactivat.</li></ul>
+<h3>Editor</h3>
+<ul><li>Els ajustos de color necessiten un navegador amb filtres de canvas (Chrome, Edge, Firefox i Safari recents).</li>
+<li>Girar, emmirallar, redimensionar i el retall no rectangular fusionen les anotacions amb la imatge.</li>
+<li>La vareta, la goma i la substitució de color actuen sobre la imatge base, no sobre les anotacions.</li></ul>
 <h3>Arxiu</h3>
 <ul><li>L'arxiu és a l'IndexedDB del navegador, lligat a aquest navegador i a aquesta adreça.</li>
 <li>L'espai és limitat per la quota del navegador.</li>
 <li>No hi ha sincronització entre dispositius ni desament directe a una carpeta del disc.</li></ul>
 <h3>Impressió i PDF</h3>
 <ul><li>Marges i escala depenen del navegador.</li>
-<li>El PDF desa JPEG (sense transparència) i només caràcters llatins.</li></ul>
+<li>El PDF desa JPEG: les zones transparents hi surten blanques. Només admet caràcters llatins.</li></ul>
 <h3>Encara no disponible</h3>
 <ul><li>Enviar a guaitaPDF Edit, guaita.MDeditor o altres apps Guaita.</li>
 <li>OCR de les captures.</li></ul>
 </section>
 
-<section id="electron"><h2>12 · Per a desenvolupadors</h2><div class="st">Cap a Electron</div>
+<section id="electron"><h2>13 · Per a desenvolupadors</h2><div class="st">Cap a Electron</div>
 <p>L'app detecta <code>window.guaitaBridge</code> (exposat des del <i>preload</i> d'Electron) i, si existeix, l'usa en lloc de les API del navegador. Així la mateixa interfície serveix a les dues versions:</p>
 <pre><code>window.guaitaBridge = {
   captureScreen(): Promise&lt;Blob&gt;,                       // captura sense diàleg (desktopCapturer)
@@ -226,7 +272,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>Electron hi afegirà vigilància contínua del porta-retalls amb historial complet, dreceres globals, icona a la safata del sistema i captura sense diàleg.</p>
 </section>
 
-<section id="faq"><h2>13 · FAQ</h2><div class="st">Preguntes freqüents</div>
+<section id="faq"><h2>14 · FAQ</h2><div class="st">Preguntes freqüents</div>
 <details><summary>El navegador em demana permís del porta-retalls una vegada i una altra</summary><p>Passa quan s'obre l'HTML com a fitxer (<code>file://</code>). Serveix l'app per <code>https://</code> o <code>localhost</code>, o instal·la-la com a PWA. Des de la versió 0.1.1 l'historial automàtic no demana permís ell sol.</p></details>
 <details><summary>Per què no puc capturar des del mòbil?</summary><p>Els navegadors mòbils no ofereixen captura de pantalla a les pàgines web. Pots enganxar o importar imatges.</p></details>
 <details><summary>He perdut les captures</summary><p>Si s'han esborrat les dades de navegació o s'ha canviat d'adreça o de navegador, l'arxiu no hi és. Per això convé exportar el .zip sovint i activar l'emmagatzematge persistent.</p></details>

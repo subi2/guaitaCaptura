@@ -7,7 +7,7 @@ let pass=0,fail=0;const t=async(n,f)=>{try{await f();pass++;}catch(e){fail++;con
  const errs=[];
  const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://localhost/pagesCAT/guaitaCaptura.html',
    beforeParse(w){w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;w.HTMLDialogElement&&(w.HTMLDialogElement.prototype.showModal=function(){this.open=true;});w.HTMLDialogElement&&(w.HTMLDialogElement.prototype.close=function(){this.open=false;this.onclose&&this.onclose();});
-     w.URL.createObjectURL=()=>'blob:x';w.URL.revokeObjectURL=()=>{};w.addEventListener('error',e=>errs.push(e.message));}});
+     w.HTMLCanvasElement.prototype.getContext=()=>null;w.URL.createObjectURL=()=>'blob:x';w.URL.revokeObjectURL=()=>{};w.addEventListener('error',e=>errs.push(e.message));}});
  const w=dom.window;await new Promise(r=>setTimeout(r,600));const G=w.GC;
  await t('arrencada sense errors',()=>assert.deepStrictEqual(errs,[]));
  await t('menús construïts (6)',()=>assert.strictEqual(w.document.querySelectorAll('.menu').length,6));
@@ -39,5 +39,21 @@ let pass=0,fail=0;const t=async(n,f)=>{try{await f();pass++;}catch(e){fail++;con
  await t('filtres de vista',()=>{const S=G.S;S.shots=[{id:'1',kind:'image',name:'planta',notes:'',tags:['rev'],source:'captura',star:true,collection:'A'},{id:'2',kind:'text',name:'nota',text:'hola món',notes:'',tags:[],source:'porta-retalls',star:false,collection:''}];
    const v=f=>{Object.assign(S.filter,{view:'all',col:'',tag:'',q:''},f);return G.visible().map(s=>s.id).join();};
    assert.strictEqual(v({}),'1,2');assert.strictEqual(v({view:'star'}),'1');assert.strictEqual(v({view:'clip'}),'2');assert.strictEqual(v({view:'text'}),'2');assert.strictEqual(v({view:'col',col:'A'}),'1');assert.strictEqual(v({tag:'rev'}),'1');assert.strictEqual(v({q:'món'}),'2');assert.strictEqual(v({view:'nocol'}),'2');});
+ await t('ptsBox i inPoly',()=>{const P=[[0,0],[10,0],[10,10],[0,10]];const b=G.ptsBox(P);assert.deepStrictEqual([b.x,b.y,b.w,b.h],[0,0,10,10]);assert.ok(G.inPoly({x:5,y:5},P));assert.ok(!G.inPoly({x:15,y:5},P));});
+ await t('segDist',()=>{assert.strictEqual(G.segDist({x:5,y:3},[0,0],[10,0]),3);assert.strictEqual(G.segDist({x:-4,y:0},[0,0],[10,0]),4);});
+ await t('toLocal/toWorld anada i tornada amb gir',()=>{const o={x:10,y:20,w:100,h:40,rot:0.7};const w=G.toWorld(o,{x:30,y:5});const l=G.toLocal(o,w);assert.ok(Math.abs(l.x-30)<1e-9&&Math.abs(l.y-5)<1e-9);const c=G.toWorld(o,{x:50,y:20});assert.ok(Math.abs(c.x-60)<1e-9&&Math.abs(c.y-40)<1e-9);});
+ await t('hexRgb, rgbHex i contrast',()=>{assert.deepStrictEqual([...G.hexRgb('#FF2ECC')],[255,46,204]);assert.deepStrictEqual([...G.hexRgb('#fff')],[255,255,255]);assert.strictEqual(G.rgbHex(255,46,204),'#ff2ecc');assert.strictEqual(G.contrast('#111111'),'#ffffff');assert.strictEqual(G.contrast('#FFE500'),'#111111');});
+ await t('floodAlpha contigu i global',()=>{const mk=()=>{const d=new Uint8ClampedArray(5*1*4);[[255,255,255],[255,255,255],[0,0,0],[255,255,255],[250,250,250]].forEach((c,i)=>{d[i*4]=c[0];d[i*4+1]=c[1];d[i*4+2]=c[2];d[i*4+3]=255;});return d;};
+   let d=mk();assert.strictEqual(G.floodAlpha(d,5,1,0,0,10,true),2);assert.deepStrictEqual([d[3],d[7],d[11],d[15],d[19]],[0,0,255,255,255]);
+   d=mk();assert.strictEqual(G.floodAlpha(d,5,1,0,0,10,false),4);assert.strictEqual(d[11],255);
+   d=mk();assert.strictEqual(G.floodAlpha(d,5,1,0,0,2,false),3);assert.strictEqual(d[19],255);assert.strictEqual(G.floodAlpha(d,5,1,0,0,2,false),0);});
+ await t('replaceColor conserva diferències i transparència',()=>{const d=new Uint8ClampedArray([255,0,0,255, 250,5,0,255, 0,0,255,255, 255,0,0,0]);assert.strictEqual(G.replaceColor(d,[255,0,0],[0,200,0],10),2);assert.deepStrictEqual([...d.slice(0,8)],[0,200,0,255,0,205,0,255]);assert.deepStrictEqual([...d.slice(8,12)],[0,0,255,255]);assert.strictEqual(d[12],255);});
+ await t('filterStr',()=>{assert.strictEqual(G.filterStr({b:100,c:100,s:100,h:0}),'');assert.strictEqual(G.filterStr({b:120,c:100,s:0,h:-30,g:true,inv:true}),'brightness(120%) saturate(0%) hue-rotate(-30deg) grayscale(100%) invert(100%)');});
+ await t('fitRatio dins dels límits',()=>{const r=G.fitRatio({x:10,y:10,w:400,h:300},1,1600,900);assert.deepStrictEqual([r.w,r.h],[400,400]);const q=G.fitRatio({x:0,y:0,w:1600,h:900},1,1600,900);assert.deepStrictEqual([q.w,q.h],[900,900]);const z=G.fitRatio({x:1500,y:0,w:400,h:100},2,1600,900);assert.ok(z.x+z.w<=1600);});
+ await t('hitOp: caixa girada, línia i polígon',()=>{const box={t:'rect',x:0,y:0,w:100,h:20,rot:Math.PI/2,lw:2};assert.ok(G.hitOp(box,{x:50,y:45},1));assert.ok(!G.hitOp(box,{x:5,y:10},1));
+   const ln={t:'line',pts:[[0,0],[100,0]],lw:4};assert.ok(G.hitOp(ln,{x:50,y:3},1));assert.ok(!G.hitOp(ln,{x:50,y:9},1));
+   const pg={t:'polygon',pts:[[0,0],[100,0],[100,100],[0,100]],lw:2,fill:''};assert.ok(!G.hitOp(pg,{x:50,y:50},2));pg.fill='#fff';assert.ok(G.hitOp(pg,{x:50,y:50},2));});
+ await t('edHandles: caixa, línia, text i bafarada',()=>{const n=o=>G.edHandles(o,1).map(h=>h.k).join('');assert.strictEqual(n({t:'rect',x:0,y:0,w:10,h:10,rot:0}),'bbbbbbbbrot');assert.strictEqual(n({t:'arrow',pts:[[0,0],[5,5]]}),'p0p1');assert.strictEqual(n({t:'text',x:0,y:0,w:10,h:10,rot:0}),'bbbbrot');assert.strictEqual(n({t:'blur',x:0,y:0,w:10,h:10}),'bbbbbbbb');assert.ok(n({t:'callout',x:0,y:0,w:10,h:10,rot:0,tx:2,ty:14}).endsWith('tail'));});
+ await t('editor i retall presents al DOM',()=>{const d=w.document;assert.ok(d.querySelectorAll('#edTools .tool').length>=28);assert.ok(d.querySelector('#crShape option[value=lasso]'));assert.ok(d.querySelector('#edSave'));assert.strictEqual(G.S.settings.surface,'monitor');});
  console.log(`${pass} OK, ${fail} FAIL`);process.exit(fail?1:0);
 })();

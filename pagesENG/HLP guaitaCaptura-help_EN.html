@@ -49,13 +49,13 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 </style></head><body>
 <button id="th" title="theme">◐</button>
 <header class="hero"><div class="brand"><span class="cells"><span></span><span></span><span></span><span></span></span>GUAITA<small>captura</small></div>
-<span class="tag">User guide · 0.1.2 · preview</span><h1>Guaita <em>Captura</em></h1><p class="lead">Screenshot and clipboard manager in a single HTML file. Capture, archive, name, reuse and print. It installs nothing, connects to no server and keeps everything in your browser: your captures never leave your computer.</p></header>
-<div class="wrap"><nav class="toc"><a href="#intro">What it is</a><a href="#comencar">Getting started</a><a href="#pantalla">The screen</a><a href="#capturar">Capture</a><a href="#arxivar">Archive</a><a href="#anomenar">Name</a><a href="#reutilitzar">Reuse</a><a href="#anotar">Annotate</a><a href="#imprimir">Print and PDF</a><a href="#dreceres">Shortcuts</a><a href="#limits">Limitations</a><a href="#electron">Towards Electron</a><a href="#faq">FAQ</a></nav>
+<span class="tag">User guide · 0.2.0 · preview</span><h1>Guaita <em>Captura</em></h1><p class="lead">Screenshot and clipboard manager in a single HTML file. Capture, archive, name, reuse and print. It installs nothing, connects to no server and keeps everything in your browser: your captures never leave your computer.</p></header>
+<div class="wrap"><nav class="toc"><a href="#intro">What it is</a><a href="#comencar">Getting started</a><a href="#pantalla">The screen</a><a href="#capturar">Capture</a><a href="#retallar">Crop</a><a href="#arxivar">Archive</a><a href="#anomenar">Name</a><a href="#reutilitzar">Reuse</a><a href="#anotar">Editor</a><a href="#imprimir">Print and PDF</a><a href="#dreceres">Shortcuts</a><a href="#limits">Limitations</a><a href="#electron">Towards Electron</a><a href="#faq">FAQ</a></nav>
 <main>
 
 <section id="intro"><h2>01 · Introduction</h2><div class="st">What guaitaCaptura is</div>
 <p>guaitaCaptura brings five tasks together in one tool: <b>capturing</b> the screen, <b>archiving</b> captures in an orderly way, <b>naming</b> them with templates, <b>reusing</b> them (also as a manager for the system clipboard) and <b>printing</b> them or exporting them to PDF.</p>
-<div class="note stop"><b>Preview version 0.1.2, not a Release Candidate.</b> It is a test PWA ahead of the desktop (Electron) version. It may contain bugs and the internal archive format may change between versions. <b>Export the archive (.zip) often</b> and read the <a href="#limits">limitations</a> before relying on it for important work.</div>
+<div class="note stop"><b>Preview version 0.2.0, not a Release Candidate.</b> It is a test PWA ahead of the desktop (Electron) version. It may contain bugs and the internal archive format may change between versions. <b>Export the archive (.zip) often</b> and read the <a href="#limits">limitations</a> before relying on it for important work.</div>
 <div class="note">Privacy: everything is processed <b>locally</b> in the browser. No accounts, no servers, no telemetry.</div>
 </section>
 
@@ -84,21 +84,43 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <h3>Capturing the screen</h3>
 <ol class="steps">
 <li>Press <kbd>Alt</kbd>+<kbd>S</kbd> or the <b>Capture</b> button.</li>
-<li>The browser asks which <b>screen, window or tab</b> you want to share. Pick one.</li>
-<li>The app grabs a frame and saves it to the archive using the name template.</li>
+<li>The browser shows its dialog. The app proposes the type chosen in <i>Capture › What the dialog proposes</i>: <b>entire screen</b> (the default), window or tab.</li>
+<li>If you picked the entire screen, <b>switch to the window you want to capture</b>: the capture is taken 1.5 s after you leave the app (or after 10 s). That way guaitaCaptura does not appear in the image.</li>
+<li>Back in the app you find the <b>preview</b>: save it whole, crop it, annotate it, copy it to the clipboard or discard it.</li>
 </ol>
-<div class="note warn">The browser asks for the selection every time: there is no silent capture and no global shortcut. These limitations will disappear with the Electron version.</div>
+<div class="note warn">The browser dialog can be neither avoided nor forced: the app only proposes a type, and the browser may ignore the proposal. There is no silent capture and no global shortcut. All of this will disappear with the Electron version.</div>
+<h3>Capture session: one dialog for many captures</h3>
+<p><i>Capture › Start a capture session</i> (<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>) opens the dialog once and keeps the source open. From then on, each <kbd>Alt</kbd>+<kbd>S</kbd> captures without asking again. The active session is shown at the top right; stop it with the <b>✕</b> or from the browser.</p>
+<h3>Capture options</h3>
+<table class="tbl"><tr><th>Option</th><th>What it does</th></tr>
+<tr><td>What the dialog proposes</td><td>Entire screen, window or browser tab.</td></tr>
+<tr><td>Hide the entire-screen option</td><td>Only when a window or tab is proposed.</td></tr>
+<tr><td>Preview and crop before saving</td><td>If you turn it off, each capture is saved directly.</td></tr>
+<tr><td>Entire screen: wait until the window changes</td><td>If you turn it off, the capture is taken at once.</td></tr>
+<tr><td>Include the cursor</td><td>Asks the browser to show or hide the cursor.</td></tr></table>
 <h3>Other ways to bring images in</h3>
 <table class="tbl"><tr><th>Mode</th><th>How</th><th>Detail</th></tr>
-<tr><td>Region crop</td><td><kbd>Alt</kbd>+<kbd>R</kbd> or <i>Capture › Region crop</i></td><td>Captures the screen and lets you select a rectangle. <kbd>Enter</kbd> saves the crop (or the whole image if you marked none), <kbd>Esc</kbd> cancels.</td></tr>
+<tr><td>Capture and crop</td><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Always opens the crop tool, even when the preview is turned off.</td></tr>
 <tr><td>Timer</td><td><kbd>Alt</kbd>+<kbd>T</kbd> (5 s) or <i>Capture › With timer</i></td><td>3, 5 or 10 seconds, or 5 seconds with crop. A large countdown is shown.</td></tr>
-<tr><td>Burst</td><td><i>Capture › Burst</i></td><td>5 or 10 captures, one per second, handy for documenting a process.</td></tr>
+<tr><td>Burst</td><td><i>Capture › Burst</i></td><td>5 or 10 captures, one per second, with no preview.</td></tr>
 <tr><td>Paste</td><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Pastes images or text. Always works, no permissions needed. Duplicates are reported and not saved again.</td></tr>
 <tr><td>Drag or import</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd> or drag onto the centre</td><td>Images (PNG, JPG, WebP, GIF…), text (.txt) and guaitaCaptura .zip archives.</td></tr>
 <tr><td>From the clipboard</td><td><b>From clipboard</b> button</td><td>Reads what is on the system clipboard and saves it.</td></tr></table>
 </section>
 
-<section id="arxivar"><h2>05 · Archive</h2><div class="st">Organise, search and keep</div>
+<section id="retallar"><h2>05 · Crop</h2><div class="st">Adjustable crop and non-rectangular shapes</div>
+<p>The crop tool opens when you capture (preview) and also on any image in the archive: the <kbd>R</kbd> key, <i>Edit › Crop</i> or right-click. When you crop an archived image, the original is kept and the crop is saved as a new capture.</p>
+<table class="tbl"><tr><th>Element</th><th>Use</th></tr>
+<tr><td>Shape</td><td><b>Rectangle</b>, <b>rounded corners</b> (with radius), <b>ellipse</b>, <b>polygon</b> (click the vertices) and <b>freehand lasso</b>. Outside the shape, the result is <b>transparent</b> (PNG).</td></tr>
+<tr><td>Handles</td><td>Drag the eight handles to adjust, or the inside to move the crop. In a closed polygon, drag the vertices.</td></tr>
+<tr><td>Ratio</td><td>Free, 1:1, 4:3, 3:2, 16:9, A4 portrait or A4 landscape.</td></tr>
+<tr><td>X, Y, W, H</td><td>Exact position and size in pixels.</td></tr>
+<tr><td>Loupe</td><td>Magnifies the pixels under the cursor and shows their coordinates.</td></tr>
+<tr><td>Keyboard</td><td>Arrow keys move 1 px (<kbd>Shift</kbd> = 10 px), <kbd>Ctrl</kbd>+<kbd>A</kbd> selects everything, <kbd>Enter</kbd> saves and <kbd>Esc</kbd> discards. In a polygon, <kbd>Backspace</kbd> removes the last vertex.</td></tr></table>
+<p>Buttons: <b>Save crop</b>, <b>Save whole</b>, <b>Save and annotate</b> (opens the editor), <b>Save and copy</b> (also to the clipboard) and <b>Discard</b>. Right-click opens the context menu with the same actions.</p>
+</section>
+
+<section id="arxivar"><h2>06 · Archive</h2><div class="st">Organise, search and keep</div>
 <ul>
 <li><b>Collections.</b> Create them with the <kbd>+</kbd> in the left panel or from <i>Edit › Move to collection</i>. If a collection is open, new captures are saved straight into it. They can be renamed and deleted (items are kept without a collection).</li>
 <li><b>Tags.</b> Type them comma-separated in the detail. To assign tags to several items at once, select them and use “Add tags”.</li>
@@ -112,7 +134,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <div class="note warn">The archive lives in the browser, at the address where you used it. Clearing browsing data deletes it. Turn on <b>persistent storage</b> in <i>Settings</i> and make .zip backups regularly.</div>
 </section>
 
-<section id="anomenar"><h2>06 · Name</h2><div class="st">Name templates and batch rename</div>
+<section id="anomenar"><h2>07 · Name</h2><div class="st">Name templates and batch rename</div>
 <p>Each new capture gets a name from a template, configurable in <i>File › Settings</i>. The default is <code>{source}_{date}_{time}_{n}</code>.</p>
 <table class="tbl"><tr><th>Token</th><th>Value</th></tr>
 <tr><td><code>{name}</code></td><td>Current name (in batch rename) or the first words of a text</td></tr>
@@ -126,7 +148,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>Select several items and use <i>Edit › Batch rename</i>: choose the template and the starting number, and a preview is shown. It is applied from oldest to newest. To rename a single item, edit the “Name” field in the detail or press <kbd>F2</kbd>.</p>
 </section>
 
-<section id="reutilitzar"><h2>07 · Reuse</h2><div class="st">The clipboard and your items</div>
+<section id="reutilitzar"><h2>08 · Reuse</h2><div class="st">The clipboard and your items</div>
 <p>The right panel shows the current content of the <b>system clipboard</b> (image or text) and lets you replace it with any item from the archive.</p>
 <ol class="steps">
 <li>Press <b>Read</b> to see what is on the clipboard (the browser asks for permission the first time).</li>
@@ -139,25 +161,39 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>When enabled, each time you return to the app the clipboard is read and, if there is new content, it is saved to the archive (the “Clipboard history” view). It only works if the permission is already granted and it does not read during a capture.</p>
 <div class="note warn">The browser does not allow watching the clipboard in the background: if you copy several things in a row in other programs, only the last one is saved. Images are always placed on the clipboard as PNG.</div>
 <h3>Other ways to reuse</h3>
-<ul><li><b>Duplicate</b> (<kbd>Ctrl</kbd>+<kbd>D</kbd>): a copy before editing; the original is always kept.</li>
+<ul><li><b>Duplicate</b> (<kbd>Ctrl</kbd>+<kbd>D</kbd>): makes a copy before editing.</li>
 <li><b>Drag</b> a thumbnail out of the app (to the desktop or file explorer, in Chrome/Edge) to save it as a file.</li>
 <li><b>Download</b> as PNG, JPEG, WebP or the original format.</li></ul>
 </section>
 
-<section id="anotar"><h2>08 · Annotate</h2><div class="st">Annotation editor</div>
-<p>Double-click an image, press <kbd>E</kbd> or use <i>Edit › Annotate</i>. The tools and their shortcuts:</p>
-<table class="tbl"><tr><th>Tool</th><th>Shortcut</th><th>Use</th></tr>
-<tr><td>Rectangle</td><td><kbd>R</kbd></td><td>Frame an area</td></tr>
-<tr><td>Arrow</td><td><kbd>F</kbd></td><td>Point at a detail</td></tr>
-<tr><td>Text</td><td><kbd>T</kbd></td><td>Labels. <kbd>Enter</kbd> confirms, <kbd>Shift</kbd>+<kbd>Enter</kbd> adds a line</td></tr>
-<tr><td>Highlight</td><td><kbd>H</kbd></td><td>Translucent marker</td></tr>
-<tr><td>Blur</td><td><kbd>B</kbd></td><td>Pixelate sensitive data (names, plates, keys…)</td></tr>
-<tr><td>Step</td><td><kbd>N</kbd></td><td>Numbered circles 1, 2, 3… to explain a procedure</td></tr></table>
-<p>Choose the colour and thickness in the bar; <kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes and <kbd>Ctrl</kbd>+<kbd>Y</kbd> redoes. To finish you have three options: <b>Save as copy</b> (recommended: the original is kept), <b>Replace</b> (asks for confirmation) or <b>To clipboard</b>.</p>
-<div class="note warn">Blur pixelates the area in the saved image, but the unblurred original stays in the archive if you used “Save as copy”. Always share the annotated copy, not the original.</div>
+<section id="anotar"><h2>09 · Editor</h2><div class="st">Annotate, draw and edit the image</div>
+<p>Double-click an image, press <kbd>E</kbd> or use <i>Edit › Annotate and edit</i>. The tools are on the left; the properties and the <b>Image</b>, <b>Selection</b> and <b>Object</b> menus are at the top; right-click opens the context menu.</p>
+<h3>Editable objects</h3>
+<p>Everything you draw is an <b>object</b>. With the select tool (<kbd>V</kbd>) you can move it, resize it with the handles, rotate it with the round handle (<kbd>Shift</kbd> = 15° steps), duplicate it (<kbd>Ctrl</kbd>+<kbd>D</kbd>), delete it (<kbd>Del</kbd>), nudge it with the arrow keys and change its order (to front, forward, backward, to back). Objects are saved with the capture: when you open it again <b>they can still be edited</b>.</p>
+<table class="tbl"><tr><th>Tools</th><th>Detail</th></tr>
+<tr><td>Shapes</td><td>Rectangle (<kbd>R</kbd>), rounded rectangle, ellipse (<kbd>O</kbd>), triangle, rhombus, star, revision cloud. <kbd>Shift</kbd> makes them regular.</td></tr>
+<tr><td>Lines</td><td>Line (<kbd>L</kbd>), arrow (<kbd>F</kbd>), double arrow, polyline and polygon (<kbd>P</kbd>): click the vertices and finish with a double-click or <kbd>Enter</kbd>.</td></tr>
+<tr><td>Freehand</td><td>Pencil (<kbd>D</kbd>) and translucent marker (<kbd>M</kbd>).</td></tr>
+<tr><td>Text</td><td>Text (<kbd>T</kbd>), callout with a movable tip, numbered step (<kbd>N</kbd>) and stamp (APPROVED, REVIEWED, REJECTED, DRAFT, CONFIDENTIAL, URGENT; double-click edits its text).</td></tr>
+<tr><td>Highlight and hide</td><td>Highlight (<kbd>H</kbd>), blur (<kbd>B</kbd>) and pixelate.</td></tr></table>
+<p><b>Properties:</b> stroke and text colour, fill (click a swatch = stroke, <kbd>Shift</kbd>+click = fill), thickness, opacity, dashed line and text size. With an object selected, changes apply to it.</p>
+<h3>Colour</h3>
+<p><i>Image › Colour adjustments</i> opens a panel with <b>brightness, contrast, saturation, hue, greyscale, sepia and invert</b>, with live preview. If you made a selection first, it only applies to that area. The <b>Replace a colour</b> tool swaps one colour for another: click the source colour in the image, choose the new colour and the tolerance, and press “Apply”.</p>
+<h3>Transparency</h3>
+<ul>
+<li><b>Magic wand</b> (<kbd>W</kbd>): click a colour to make it transparent. Adjust the tolerance and choose whether only the contiguous area is affected.</li>
+<li><b>Eraser</b> (<kbd>E</kbd>): erases to transparent; thickness changes its size.</li>
+<li><b>Selections</b> (<kbd>S</kbd>): rectangular, elliptical, lasso or polygonal. Then, in the <i>Selection</i> menu: make it transparent (<kbd>Del</kbd>), make the outside transparent, crop the image to the selection, adjust its colour or copy it.</li>
+<li><b>Overall opacity</b>: makes the whole base image semi-transparent.</li>
+</ul>
+<h3>Image</h3>
+<p>Rotate 90°, flip, resize, add a margin or border (coloured or transparent) and merge the annotations into the image. There is zoom (fit, 50–400 %) and undo/redo (<kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd>).</p>
+<h3>Saving</h3>
+<p><b>Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) updates the capture; if you changed the base image (colour, transparency, size), it asks for confirmation. <b>Save as copy</b> creates a new capture and leaves the original untouched. <b>To clipboard</b> copies the result or the selected area.</p>
+<div class="note warn">Rotating, flipping, resizing and non-rectangular cropping merge the annotations into the image. The wand, the eraser and colour replacement act on the base image, not on the annotations. Blur protects nothing if you share the original capture: always share the edited version.</div>
 </section>
 
-<section id="imprimir"><h2>09 · Output</h2><div class="st">Print and export to PDF</div>
+<section id="imprimir"><h2>10 · Output</h2><div class="st">Print and export to PDF</div>
 <p><i>File › Print</i> (<kbd>Ctrl</kbd>+<kbd>P</kbd>) uses the selection or, if there is none, the current view.</p>
 <table class="tbl"><tr><th>Option</th><th>Values</th></tr>
 <tr><td>Per page</td><td>1, 2, 4 (2×2), 6 (2×3), 9 (3×3) or 16 (4×4, contact sheet)</td></tr>
@@ -169,30 +205,36 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <div class="note warn">PDF text only supports Latin characters (Latin-1): other alphabets appear as “?”. Archived texts are printed as an image of their content.</div>
 </section>
 
-<section id="dreceres"><h2>10 · Keyboard</h2><div class="st">Shortcuts</div>
+<section id="dreceres"><h2>11 · Keyboard</h2><div class="st">Shortcuts</div>
 <table class="tbl"><tr><th>Key</th><th>Action</th></tr>
-<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Capture screen, window or tab</td></tr>
-<tr><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Capture and crop a region</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Capture</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>Capture and crop</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>T</kbd></td><td>Capture with a 5 s timer</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>Start or stop the capture session</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Paste into the archive (image or text)</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Put the selection on the clipboard</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Import files or .zip</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td>Print or export PDF</td></tr>
-<tr><td><kbd>E</kbd> / double-click</td><td>Annotate</td></tr>
+<tr><td><kbd>E</kbd> / double-click</td><td>Open the editor</td></tr>
+<tr><td><kbd>R</kbd></td><td>Crop the selected image</td></tr>
+<tr><td>Right-click</td><td>Context menu (thumbnails, background, collections, clipboard, crop and editor)</td></tr>
 <tr><td><kbd>F1</kbd></td><td>Open this manual</td></tr>
 <tr><td><kbd>F2</kbd></td><td>Rename</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Duplicate</td></tr>
 <tr><td><kbd>S</kbd></td><td>Star</td></tr>
 <tr><td><kbd>Del</kbd></td><td>Delete</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>Select all</td></tr>
-<tr><td><kbd>Esc</kbd></td><td>Deselect / close</td></tr></table>
+<tr><td><kbd>Esc</kbd></td><td>Deselect / close</td></tr>
+<tr><td>Editor: <kbd>V</kbd> <kbd>R</kbd> <kbd>O</kbd> <kbd>L</kbd> <kbd>F</kbd> <kbd>P</kbd> <kbd>T</kbd> <kbd>D</kbd> <kbd>M</kbd> <kbd>H</kbd> <kbd>N</kbd> <kbd>B</kbd> <kbd>E</kbd> <kbd>W</kbd> <kbd>S</kbd></td><td>Select, rectangle, ellipse, line, arrow, polygon, text, pencil, marker, highlight, step, blur, eraser, wand, selection</td></tr>
+<tr><td>Editor: <kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd> / <kbd>S</kbd></td><td>Undo, redo and save</td></tr></table>
 <p>The <kbd>Alt</kbd> shortcuts only work while the app is in the foreground.</p>
 </section>
 
-<section id="limits"><h2>11 · Limitations</h2><div class="st">Limitations of version 0.1.2</div>
+<section id="limits"><h2>12 · Limitations</h2><div class="st">Limitations of version 0.2.0</div>
 <div class="note stop"><b>Preview version: not an RC.</b> These limitations come from the browser; the Electron version will solve most of them.</div>
 <h3>Capture</h3>
-<ul><li>The browser asks what to share every time; there is no silent or one-click capture.</li>
+<ul><li>The browser always shows its dialog; the app only proposes a type. A capture session avoids repeating it.</li>
+<li>When capturing the entire screen you have to switch window; otherwise the app appears in the capture.</li>
 <li>There is no global system shortcut.</li>
 <li>It does not work on phones or tablets (they lack <code>getDisplayMedia</code>); there you can only paste or import.</li>
 <li>The capture is a frame of the shared video: the browser's sharing notice may appear and, depending on the system, the cursor.</li>
@@ -203,19 +245,23 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <li>Image and plain text only; rich formats and copied files are not kept.</li>
 <li>When writing, images are always converted to PNG.</li>
 <li>https or localhost is required. With <code>file://</code>, reading and writing may fail and automatic history is disabled.</li></ul>
+<h3>Editor</h3>
+<ul><li>Colour adjustments need a browser with canvas filters (recent Chrome, Edge, Firefox and Safari).</li>
+<li>Rotating, flipping, resizing and non-rectangular cropping merge the annotations into the image.</li>
+<li>The wand, the eraser and colour replacement act on the base image, not on the annotations.</li></ul>
 <h3>Archive</h3>
 <ul><li>The archive is in the browser's IndexedDB, tied to this browser and this address.</li>
 <li>Space is limited by the browser quota.</li>
 <li>There is no synchronisation between devices and no direct saving to a disk folder.</li></ul>
 <h3>Printing and PDF</h3>
 <ul><li>Margins and scale depend on the browser.</li>
-<li>The PDF stores JPEG (no transparency) and Latin characters only.</li></ul>
+<li>The PDF stores JPEG: transparent areas come out white. Latin characters only.</li></ul>
 <h3>Not available yet</h3>
 <ul><li>Sending to guaitaPDF Edit, guaita.MDeditor or other Guaita apps.</li>
 <li>OCR of the captures.</li></ul>
 </section>
 
-<section id="electron"><h2>12 · For developers</h2><div class="st">Towards Electron</div>
+<section id="electron"><h2>13 · For developers</h2><div class="st">Towards Electron</div>
 <p>The app detects <code>window.guaitaBridge</code> (exposed from the Electron <i>preload</i>) and, if present, uses it instead of the browser APIs. That way the same interface serves both versions:</p>
 <pre><code>window.guaitaBridge = {
   captureScreen(): Promise&lt;Blob&gt;,                       // capture without dialog (desktopCapturer)
@@ -226,7 +272,7 @@ footer .in{max-width:1100px;margin:0 auto}.fb{display:flex;align-items:center;ga
 <p>Electron will add continuous clipboard watching with a complete history, global shortcuts, a system tray icon and capture without a dialog.</p>
 </section>
 
-<section id="faq"><h2>13 · FAQ</h2><div class="st">Frequently asked questions</div>
+<section id="faq"><h2>14 · FAQ</h2><div class="st">Frequently asked questions</div>
 <details><summary>The browser asks for clipboard permission again and again</summary><p>This happens when the HTML is opened as a file (<code>file://</code>). Serve the app over <code>https://</code> or <code>localhost</code>, or install it as a PWA. Since version 0.1.1 automatic history never asks for permission by itself.</p></details>
 <details><summary>Why can't I capture from my phone?</summary><p>Mobile browsers do not offer screen capture to web pages. You can paste or import images.</p></details>
 <details><summary>I lost my captures</summary><p>If browsing data was cleared, or the address or browser changed, the archive is not there. That is why you should export the .zip often and enable persistent storage.</p></details>
