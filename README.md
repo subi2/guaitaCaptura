@@ -43,12 +43,19 @@ L'app detecta `window.guaitaBridge` (exposat des del *preload* d'Electron) i, si
 
 ```js
 window.guaitaBridge = {
-  captureScreen(): Promise<Blob>,                       // captura sense diàleg (desktopCapturer)
-  readClipboard(): Promise<{ image?: Blob, text?: string, types?: string[] }>,
-  writeClipboard({ image?: Blob, text?: string }): Promise<void>,
-  onClipboardChange(callback): void                     // vigilància contínua → historial complet
+  captureScreen(opts): Promise<ArrayBuffer>,             // captura sense diàleg (desktopCapturer)
+  endCaptureSession(): void,
+  readClipboard(): Promise<{ image?: ArrayBuffer, text?: string, types?: string[] }>,
+  writeClipboard({ image?: ArrayBuffer, text?: string }): Promise<boolean>,
+  onClipboardChange(callback): () => void,               // vigilància contínua → historial complet
+  onGlobalCapture(callback): () => void                  // Alt+Maj+C, també amb la finestra amagada
 };
 ```
+
+Hi ha una primera build **experimental** (no RC) a [`electron/`](electron/README.md):
+finestra pròpia, captura sense diàleg de Chrome, porta-retalls vigilat en segon pla,
+drecera global (Alt+Maj+C) i icona a la safata. Vegeu-ne les limitacions conegudes
+(signatura de codi, permisos de macOS) al README d'aquella carpeta.
 
 ### Estructura del repositori
 
@@ -112,6 +119,11 @@ Locally: `python -m http.server 8000` inside the folder and open `http://localho
 ### Towards Electron
 
 The app detects `window.guaitaBridge` (exposed from the Electron preload) and, if present, uses it instead of the browser APIs (see the interface above).
+
+There is a first **experimental** (not RC) build in [`electron/`](electron/README.md): its
+own window, dialog-free capture, a background-watched clipboard, a global shortcut
+(Alt+Shift+C), and a system tray icon. See that folder's README for known
+limitations (code signing, macOS permissions).
 
 ### Licence
 

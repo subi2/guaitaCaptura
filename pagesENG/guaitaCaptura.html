@@ -498,20 +498,24 @@ async function grab(s){const tr=s.track;
   if(typeof ImageCapture!=='undefined'&&tr&&tr.readyState==='live'){try{const b=await new ImageCapture(tr).grabFrame();const c=mkCanvas(b.width,b.height);c.getContext('2d').drawImage(b,0,0);if(b.close)b.close();return c;}catch(e){/* cau al vídeo */}}
   const c=mkCanvas(s.v.videoWidth,s.v.videoHeight);c.getContext('2d').drawImage(s.v,0,0);return c;}
 const closeStream=s=>{if(s&&s!==S.session)s.stream.getTracks().forEach(t=>t.stop());};
-const sessionLive=()=>!!(S.session&&S.session.track&&S.session.track.readyState==='live');
-async function sessionStart(){if(sessionLive())return;let s;
-  try{s=await openStream();}catch(e){if(e&&e.name==='NotAllowedError'){toast('Capture cancelled','warn');return;}throw e;}
+async function sessionStart(){if(sessionLive())return;
+  if(BRIDGE&&BRIDGE.captureScreen){S.session={bridge:true,surface:S.settings.surface||'monitor',label:surfaceName(S.settings.surface||'monitor')};
+    renderSession();toast('Capture session started: Alt+S captures without asking again','',5000);return;}
+  let s;try{s=await openStream();}catch(e){if(e&&e.name==='NotAllowedError'){toast('Capture cancelled','warn');return;}throw e;}
   S.session=s;s.track.addEventListener('ended',()=>{if(S.session===s){S.session=null;renderSession();toast('Capture session ended','warn');}});
   renderSession();toast('Capture session started: Alt+S captures without asking again','',5000);}
-function sessionStop(){const s=S.session;S.session=null;if(s)s.stream.getTracks().forEach(t=>t.stop());renderSession();}
+function sessionStop(){const s=S.session;S.session=null;if(s&&s.bridge){if(BRIDGE.endCaptureSession)BRIDGE.endCaptureSession();}else if(s)s.stream.getTracks().forEach(t=>t.stop());renderSession();}
 function sessionToggle(){return sessionLive()?sessionStop():sessionStart();}
+const sessionLive=()=>!!(S.session&&(S.session.bridge||(S.session.track&&S.session.track.readyState==='live')));
 function renderSession(){const e=$('#sess'),on=sessionLive();e.style.display=on?'':'none';if(on)$('#sessL').textContent=S.session.label||surfaceName(S.session.surface);}
 function waitBlur(max){return new Promise(res=>{if(!document.hasFocus())return res(true);let t=0;const f=()=>{clearTimeout(t);window.removeEventListener('blur',f);res(true);};window.addEventListener('blur',f);t=setTimeout(()=>{window.removeEventListener('blur',f);res(false);},max);});}
 function flashTitle(){if(document.hasFocus())return;const t=document.title;document.title='● '+t;const r=()=>{document.title=t;window.removeEventListener('focus',r);};window.addEventListener('focus',r);}
 async function countdown(sec){for(let i=sec;i>0;i--){toast(String(i),'big',950);await sleep(1000);}}
 async function capture(opts={}){S.capturing=true;try{return await captureInner(opts);}finally{S.capturing=false;S.clip.lastTry=Date.now();}}
 async function captureInner({delay=0,crop=false,burst=0}={}){
-  if(BRIDGE&&BRIDGE.captureScreen&&!burst){if(delay)await countdown(delay);const blob=await BRIDGE.captureScreen();if(!blob)return;
+  if(BRIDGE&&BRIDGE.captureScreen&&!burst){if(delay)await countdown(delay);
+    const raw=await BRIDGE.captureScreen({surface:S.settings.surface||'monitor',hideMonitor:!!S.settings.hideMonitor,armBlur:!!S.settings.armBlur,remember:sessionLive()});if(!raw)return;
+    const blob=raw instanceof Blob?raw:new Blob([raw],{type:'image/png'});
     const bmp=await toBitmap(blob);const c=mkCanvas(bmpW(bmp),bmpH(bmp));c.getContext('2d').drawImage(bmp,0,0);return afterGrab(c,crop);}
   let s=sessionLive()?S.session:null;
   if(!s){try{s=await openStream();}catch(e){if(e&&e.name==='NotAllowedError'){toast('Capture cancelled','warn');return;}throw e;}}
@@ -1332,6 +1336,7 @@ async function init(){bind();buildMenus();
   applyLayout();render();renderClip();
   try{if(navigator.permissions&&S.settings.autoClip){const p=await navigator.permissions.query({name:'clipboard-read'});if(p.state==='granted')clipRead(false,{baseline:true});}}catch(e){}
   if(BRIDGE&&BRIDGE.onClipboardChange)BRIDGE.onClipboardChange(()=>{if(S.settings.autoClip)clipRead(false);});
+  if(BRIDGE&&BRIDGE.onGlobalCapture)BRIDGE.onGlobalCapture(()=>{if(!S.capturing)run(()=>capture());});
   if((await DB.getMeta('seenLimits'))!==VERSION)showLimits();
   if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});}
 window.GC={VERSION,makeName,sanitizeName,crc32,zipBuild,zipRead,buildPdf,pdfStr,computeLayout,fitBox,clipText,scaleDims,fnv1a,uniqueFile,extOf,typeOfExt,parseTags,S,visible,ptsBox,inPoly,segDist,toLocal,toWorld,hexRgb,rgbHex,contrast,floodAlpha,replaceColor,filterStr,fitRatio,ED,hitOp,edHandles};

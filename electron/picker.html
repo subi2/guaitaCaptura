@@ -1,0 +1,37 @@
+<!--
+  guaitaCaptura — build Electron EXPERIMENTAL (no RC)
+  Copyright © 2026 SBS BiM Consulting, Jordi Subirós
+  SPDX-License-Identifier: AGPL-3.0-only
+  Finestreta pròpia per triar finestra o pantalla, en lloc del diàleg de Chrome.
+-->
+<!DOCTYPE html>
+<html lang="ca"><head><meta charset="utf-8">
+<title>Tria què vols capturar</title>
+<style>
+  :root{--bg:#15161a;--panel:#1d1f26;--acc:#C6FF00;--border:#2a2d36;--text:#e7e8ec}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:13px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;padding:14px}
+  h1{font-size:14px;margin:0 0 10px;font-weight:600}
+  #grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:380px;overflow:auto}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:8px;cursor:pointer;text-align:center}
+  .card:hover{border-color:var(--acc)}
+  .card img{width:100%;height:110px;object-fit:contain;background:#0c0d10;border-radius:4px}
+  .card div{margin-top:6px;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style></head>
+<body>
+<h1>Tria la finestra o pantalla a capturar</h1>
+<div id="grid"></div>
+<script>
+  const { ipcRenderer } = require('electron');
+  ipcRenderer.on('guaita:picker-sources', (_e, sources) => {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    sources.forEach(s => {
+      const c = document.createElement('div'); c.className = 'card';
+      c.innerHTML = `<img src="${s.thumb}" alt=""><div>${s.name.replace(/</g,'&lt;')}</div>`;
+      c.onclick = () => ipcRenderer.send('guaita:picker-choice', s.id);
+      grid.appendChild(c);
+    });
+  });
+</script>
+</body></html>
